@@ -1,10 +1,10 @@
 {
-  "name": "ai-toolkit",
+  "name": "ai-dev-toolkit",
   "version": "0.1.0",
   "description": "Interactive CLI to install portable Agent Skills for Cursor, Claude Code, Copilot, and more.",
   "type": "module",
   "bin": {
-    "ai-toolkit": "./bin/ai-toolkit.js"
+    "ai-dev-toolkit": "bin/ai-dev-toolkit.js"
   },
   "files": [
     "bin",

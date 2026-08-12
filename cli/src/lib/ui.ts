@@ -39,7 +39,7 @@ export function printNextSteps(skillsRoot: string, skillNames: string[]): void {
   muted("Customize reference.md for each skill before implementation or review.");
   console.log();
   console.log(chalk.dim("  Example:"));
-  console.log(`  npx ai-toolkit reference --skill ${skillNames[0] ?? "ui-development"} --root ${skillsRoot}`);
+  console.log(`  npx ai-dev-toolkit reference --skill ${skillNames[0] ?? "ui-development"} --root ${skillsRoot}`);
   console.log();
 }
 

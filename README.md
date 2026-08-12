@@ -9,17 +9,17 @@ Canonical skills live in [`skills/`](skills/). Install them into your IDE’s pr
 From your project root:
 
 ```bash
-npx ai-toolkit
+npx ai-dev-toolkit
 ```
 
 The interactive wizard walks you through IDE selection, install location, and skill choices. Subcommands are also available:
 
 ```bash
-npx ai-toolkit init          # setup wizard
-npx ai-toolkit add           # add skills to an existing install
-npx ai-toolkit list          # show skill catalog
-npx ai-toolkit reference     # print reference.md customization prompt
-npx ai-toolkit doctor        # verify an installation
+npx ai-dev-toolkit init          # setup wizard
+npx ai-dev-toolkit add           # add skills to an existing install
+npx ai-dev-toolkit list          # show skill catalog
+npx ai-dev-toolkit reference     # print reference.md customization prompt
+npx ai-dev-toolkit doctor        # verify an installation
 ```
 
 ## Table of contents
@@ -37,7 +37,7 @@ npx ai-toolkit doctor        # verify an installation
 
 Pick your tool and follow its install guide. Each guide covers install path, how to invoke skills, and where to customize `reference.md`.
 
-Prefer **`npx ai-toolkit`** for install; use the guides below for IDE-specific paths and invocation details.
+Prefer **`npx ai-dev-toolkit`** for install; use the guides below for IDE-specific paths and invocation details.
 
 | IDE            | Guide                                                      |
 | -------------- | ---------------------------------------------------------- |

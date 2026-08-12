@@ -7,7 +7,7 @@ Install AI Dev Toolkit skills for [Google Antigravity](https://codelabs.develope
 **Recommended** — from your project root:
 
 ```bash
-npx ai-toolkit
+npx ai-dev-toolkit
 ```
 
 Select **Antigravity** and **This project** when prompted.

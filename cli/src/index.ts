@@ -10,7 +10,7 @@ import { printBanner } from "./lib/ui.js";
 const program = new Command();
 
 program
-  .name("ai-toolkit")
+  .name("ai-dev-toolkit")
   .description("Interactive CLI to install portable Agent Skills for AI coding tools")
   .version("0.1.0");
 

@@ -7,7 +7,7 @@ Install AI Dev Toolkit skills for [Cursor](https://cursor.com).
 **Recommended** — from your project root:
 
 ```bash
-npx ai-toolkit
+npx ai-dev-toolkit
 ```
 
 Select **Cursor** and **This project** when prompted.

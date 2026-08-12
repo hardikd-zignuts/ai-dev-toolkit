@@ -7,7 +7,7 @@ Install AI Dev Toolkit skills for [Windsurf Cascade](https://docs.devin.ai/deskt
 **Recommended** — from your project root:
 
 ```bash
-npx ai-toolkit
+npx ai-dev-toolkit
 ```
 
 Select **Windsurf** and **This project** when prompted.

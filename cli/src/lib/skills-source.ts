@@ -29,6 +29,6 @@ export function getSkillsSourceDir(): string {
   }
 
   throw new Error(
-    "Skills source not found. Run from the ai-toolkit repo or install the published package.",
+    "Skills source not found. Run from the ai-dev-toolkit repo or install the published package.",
   );
 }

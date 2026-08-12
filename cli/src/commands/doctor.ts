@@ -39,7 +39,7 @@ export async function runDoctor(options: DoctorOptions = {}): Promise<boolean> {
     );
 
     if (existing.length === 0) {
-      error("No skills directory found. Run `npx ai-toolkit init` first.");
+      error("No skills directory found. Run `npx ai-dev-toolkit init` first.");
       return false;
     }
 

@@ -1,16 +1,16 @@
-# ai-toolkit CLI
+# ai-dev-toolkit CLI
 
 Interactive CLI for installing [Agent Skills](https://agentskills.io) from this repository into Cursor, Claude Code, GitHub Copilot, Windsurf, Antigravity, and other compatible tools.
 
 ## Usage
 
 ```bash
-npx ai-toolkit              # interactive menu
-npx ai-toolkit init         # setup wizard
-npx ai-toolkit add          # add skills to existing install
-npx ai-toolkit list         # catalog
-npx ai-toolkit reference    # reference.md prompt
-npx ai-toolkit doctor       # verify install
+npx ai-dev-toolkit              # interactive menu
+npx ai-dev-toolkit init         # setup wizard
+npx ai-dev-toolkit add          # add skills to existing install
+npx ai-dev-toolkit list         # catalog
+npx ai-dev-toolkit reference    # reference.md prompt
+npx ai-dev-toolkit doctor       # verify install
 ```
 
 ## Development
@@ -28,7 +28,7 @@ During local development, the CLI reads skills from `../skills/` when that direc
 
 ## Publish checklist
 
-1. Verify the npm name `ai-toolkit` is available (or update `package.json`).
+1. Verify the npm name `ai-dev-toolkit` is available (or update `package.json`).
 2. Bump version in `package.json`.
 3. Run publish (syncs skills and builds automatically):
 
@@ -39,15 +39,15 @@ During local development, the CLI reads skills from `../skills/` when that direc
 4. Smoke test from a temp project:
 
    ```bash
-   npx ai-toolkit@latest list
-   npx ai-toolkit@latest init
+   npx ai-dev-toolkit@latest list
+   npx ai-dev-toolkit@latest init
    ```
 
 ## Package layout
 
 ```text
 cli/
-├── bin/ai-toolkit.js   # entry point
+├── bin/ai-dev-toolkit.js   # entry point
 ├── src/                    # TypeScript source
 ├── dist/                   # compiled output (gitignored)
 ├── assets/skills/          # bundled skills at publish (gitignored)
