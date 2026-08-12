@@ -2,7 +2,9 @@
 
 Install and invoke skills from this toolkit in your AI coding tool.
 
-Skills follow the open [Agent Skills](https://agentskills.io) format. The library lives in [`skills/`](../../skills/); each guide below shows where to copy it for that product.
+**Quick install:** run `npx ai-toolkit` from your project root.
+
+Skills follow the open [Agent Skills](https://agentskills.io) format. The library lives in [`skills/`](../../skills/); each guide below shows where skills are installed for that product.
 
 | IDE            | Guide                                  |
 | -------------- | -------------------------------------- |

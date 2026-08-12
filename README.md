@@ -2,10 +2,29 @@
 
 Portable [Agent Skills](https://agentskills.io) for AI-assisted software development — works across Cursor, Claude Code, Antigravity, GitHub Copilot, Windsurf, and other tools that load `SKILL.md`.
 
-Canonical skills live in [`skills/`](skills/). Copy them into your IDE’s project skills folder (paths differ by product).
+Canonical skills live in [`skills/`](skills/). Install them into your IDE’s project skills folder with the CLI (recommended) or copy manually.
+
+## Quick install
+
+From your project root:
+
+```bash
+npx ai-toolkit
+```
+
+The interactive wizard walks you through IDE selection, install location, and skill choices. Subcommands are also available:
+
+```bash
+npx ai-toolkit init          # setup wizard
+npx ai-toolkit add           # add skills to an existing install
+npx ai-toolkit list          # show skill catalog
+npx ai-toolkit reference     # print reference.md customization prompt
+npx ai-toolkit doctor        # verify an installation
+```
 
 ## Table of contents
 
+- [Quick install](#quick-install)
 - [Choose your IDE](#choose-your-ide)
 - [Shared setup](#shared-setup)
 - [Skills](#skills)
@@ -16,7 +35,9 @@ Canonical skills live in [`skills/`](skills/). Copy them into your IDE’s proje
 
 ## Choose your IDE
 
-Pick your tool and follow its install guide. Each guide covers copy path, how to invoke skills, and where to customize `reference.md`.
+Pick your tool and follow its install guide. Each guide covers install path, how to invoke skills, and where to customize `reference.md`.
+
+Prefer **`npx ai-toolkit`** for install; use the guides below for IDE-specific paths and invocation details.
 
 | IDE            | Guide                                                      |
 | -------------- | ---------------------------------------------------------- |

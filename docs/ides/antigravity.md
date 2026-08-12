@@ -4,11 +4,19 @@ Install AI Dev Toolkit skills for [Google Antigravity](https://codelabs.develope
 
 ## Install
 
-From your project root:
+**Recommended** — from your project root:
+
+```bash
+npx ai-toolkit
+```
+
+Select **Antigravity** and **This project** when prompted.
+
+**Manual** — from your project root:
 
 ```bash
 mkdir -p .agents/skills
-cp -R /path/to/ai-dev-toolkit/skills/* .agents/skills/
+cp -R /path/to/ai-toolkit/skills/* .agents/skills/
 ```
 
 Copy only the skills you need, or copy all and remove unused folders.

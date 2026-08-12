@@ -4,18 +4,26 @@ Install AI Dev Toolkit skills for [GitHub Copilot](https://docs.github.com/en/co
 
 ## Install
 
-Preferred project path:
+**Recommended** — from your project root:
+
+```bash
+npx ai-toolkit
+```
+
+Select **GitHub Copilot** and your preferred project path (`.github/skills` or `.agents/skills`) when prompted.
+
+**Manual** — preferred project path:
 
 ```bash
 mkdir -p .github/skills
-cp -R /path/to/ai-dev-toolkit/skills/* .github/skills/
+cp -R /path/to/ai-toolkit/skills/* .github/skills/
 ```
 
 Also supported:
 
 ```bash
 mkdir -p .agents/skills
-cp -R /path/to/ai-dev-toolkit/skills/* .agents/skills/
+cp -R /path/to/ai-toolkit/skills/* .agents/skills/
 ```
 
 Copy only the skills you need, or copy all and remove unused folders.

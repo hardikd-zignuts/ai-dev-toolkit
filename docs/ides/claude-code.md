@@ -4,11 +4,19 @@ Install AI Dev Toolkit skills for [Claude Code](https://code.claude.com).
 
 ## Install
 
-From your project root:
+**Recommended** — from your project root:
+
+```bash
+npx ai-toolkit
+```
+
+Select **Claude Code** and **This project** when prompted.
+
+**Manual** — from your project root:
 
 ```bash
 mkdir -p .claude/skills
-cp -R /path/to/ai-dev-toolkit/skills/* .claude/skills/
+cp -R /path/to/ai-toolkit/skills/* .claude/skills/
 ```
 
 Copy only the skills you need, or copy all and remove unused folders.

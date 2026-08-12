@@ -4,11 +4,19 @@ Install AI Dev Toolkit skills for [Windsurf Cascade](https://docs.devin.ai/deskt
 
 ## Install
 
-From your project root:
+**Recommended** — from your project root:
+
+```bash
+npx ai-toolkit
+```
+
+Select **Windsurf** and **This project** when prompted.
+
+**Manual** — from your project root:
 
 ```bash
 mkdir -p .windsurf/skills
-cp -R /path/to/ai-dev-toolkit/skills/* .windsurf/skills/
+cp -R /path/to/ai-toolkit/skills/* .windsurf/skills/
 ```
 
 Copy only the skills you need, or copy all and remove unused folders.

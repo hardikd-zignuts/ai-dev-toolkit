@@ -4,11 +4,19 @@ Install AI Dev Toolkit skills for [Cursor](https://cursor.com).
 
 ## Install
 
-From your project root:
+**Recommended** — from your project root:
+
+```bash
+npx ai-toolkit
+```
+
+Select **Cursor** and **This project** when prompted.
+
+**Manual** — from your project root:
 
 ```bash
 mkdir -p .cursor/skills
-cp -R /path/to/ai-dev-toolkit/skills/* .cursor/skills/
+cp -R /path/to/ai-toolkit/skills/* .cursor/skills/
 ```
 
 Copy only the skills you need, or copy all and remove unused folders.
