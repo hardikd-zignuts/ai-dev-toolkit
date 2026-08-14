@@ -2,7 +2,7 @@ import chalk from "chalk";
 
 export function printBanner(): void {
   console.log();
-  console.log(chalk.bold.cyan("  AI Dev Toolkit"));
+  console.log(chalk.bold.cyan("  AgentKitX"));
   console.log(
     chalk.dim("  Portable Agent Skills for Cursor, Claude Code, Copilot, and more."),
   );

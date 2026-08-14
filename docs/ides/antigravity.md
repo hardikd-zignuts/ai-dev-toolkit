@@ -1,6 +1,6 @@
 # Antigravity
 
-Install AI Dev Toolkit skills for [Google Antigravity](https://codelabs.developers.google.com/getting-started-with-antigravity-skills).
+Install AgentKitX skills for [Google Antigravity](https://codelabs.developers.google.com/getting-started-with-antigravity-skills).
 
 ## Install
 
@@ -16,7 +16,7 @@ Select **Antigravity** and **This project** when prompted.
 
 ```bash
 mkdir -p .agents/skills
-cp -R /path/to/ai-toolkit/skills/* .agents/skills/
+cp -R /path/to/agentkitx/skills/* .agents/skills/
 ```
 
 Copy only the skills you need, or copy all and remove unused folders.

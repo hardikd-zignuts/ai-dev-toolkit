@@ -1,4 +1,4 @@
-# AI Dev Toolkit
+# AgentKitX
 
 Portable [Agent Skills](https://agentskills.io) for AI-assisted software development — works across Cursor, Claude Code, Antigravity, GitHub Copilot, Windsurf, and other tools that load `SKILL.md`.
 

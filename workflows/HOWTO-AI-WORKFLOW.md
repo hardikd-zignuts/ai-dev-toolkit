@@ -32,7 +32,7 @@ Reply at each gate during execution:
 
 ### 1. Copy workflows into your repository
 
-From `ai-dev-toolkit` (or after `npx agentkitx`):
+From `agentkitx` (or after `npx agentkitx`):
 
 ```bash
 cp -R workflows/.github .github/          # merge prompts + issue templates

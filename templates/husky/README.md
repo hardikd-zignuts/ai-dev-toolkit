@@ -52,16 +52,16 @@ From your **project root**:
 
    ```bash
    mkdir -p .husky
-   cp path/to/ai-dev-toolkit/templates/husky/husky/pre-commit .husky/pre-commit
-   cp path/to/ai-dev-toolkit/templates/husky/husky/commit-msg .husky/commit-msg
+   cp path/to/agentkitx/templates/husky/husky/pre-commit .husky/pre-commit
+   cp path/to/agentkitx/templates/husky/husky/commit-msg .husky/commit-msg
    chmod +x .husky/pre-commit .husky/commit-msg
    ```
 
 4. **Copy config files** to your project root:
 
    ```bash
-   cp path/to/ai-dev-toolkit/templates/husky/lint-staged.config.example.mjs lint-staged.config.mjs
-   cp path/to/ai-dev-toolkit/templates/husky/commitlint.config.example.mjs commitlint.config.mjs
+   cp path/to/agentkitx/templates/husky/lint-staged.config.example.mjs lint-staged.config.mjs
+   cp path/to/agentkitx/templates/husky/commitlint.config.example.mjs commitlint.config.mjs
    ```
 
 5. **Wire Git hooks** (once after install):

@@ -1,6 +1,6 @@
 # Claude Code
 
-Install AI Dev Toolkit skills for [Claude Code](https://code.claude.com).
+Install AgentKitX skills for [Claude Code](https://code.claude.com).
 
 ## Install
 
@@ -16,7 +16,7 @@ Select **Claude Code** and **This project** when prompted.
 
 ```bash
 mkdir -p .claude/skills
-cp -R /path/to/ai-toolkit/skills/* .claude/skills/
+cp -R /path/to/agentkitx/skills/* .claude/skills/
 ```
 
 Copy only the skills you need, or copy all and remove unused folders.

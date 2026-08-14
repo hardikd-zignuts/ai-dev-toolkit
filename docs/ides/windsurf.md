@@ -1,6 +1,6 @@
 # Windsurf
 
-Install AI Dev Toolkit skills for [Windsurf Cascade](https://docs.devin.ai/desktop/cascade/skills).
+Install AgentKitX skills for [Windsurf Cascade](https://docs.devin.ai/desktop/cascade/skills).
 
 ## Install
 
@@ -16,7 +16,7 @@ Select **Windsurf** and **This project** when prompted.
 
 ```bash
 mkdir -p .windsurf/skills
-cp -R /path/to/ai-toolkit/skills/* .windsurf/skills/
+cp -R /path/to/agentkitx/skills/* .windsurf/skills/
 ```
 
 Copy only the skills you need, or copy all and remove unused folders.

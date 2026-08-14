@@ -1,6 +1,6 @@
 # IDE guides
 
-Install and invoke skills from this toolkit in your AI coding tool.
+Install and invoke skills from AgentKitX in your AI coding tool.
 
 **Quick install:** run `npx agentkitx` from your project root.
 

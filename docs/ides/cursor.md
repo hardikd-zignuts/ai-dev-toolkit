@@ -1,6 +1,6 @@
 # Cursor
 
-Install AI Dev Toolkit skills for [Cursor](https://cursor.com).
+Install AgentKitX skills for [Cursor](https://cursor.com).
 
 ## Install
 
@@ -16,7 +16,7 @@ Select **Cursor** and **This project** when prompted.
 
 ```bash
 mkdir -p .cursor/skills
-cp -R /path/to/ai-toolkit/skills/* .cursor/skills/
+cp -R /path/to/agentkitx/skills/* .cursor/skills/
 ```
 
 Copy only the skills you need, or copy all and remove unused folders.

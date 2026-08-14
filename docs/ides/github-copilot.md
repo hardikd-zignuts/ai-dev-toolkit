@@ -1,6 +1,6 @@
 # GitHub Copilot
 
-Install AI Dev Toolkit skills for [GitHub Copilot](https://docs.github.com/en/copilot/reference/customization-cheat-sheet).
+Install AgentKitX skills for [GitHub Copilot](https://docs.github.com/en/copilot/reference/customization-cheat-sheet).
 
 ## Install
 
@@ -16,14 +16,14 @@ Select **GitHub Copilot** and your preferred project path (`.github/skills` or `
 
 ```bash
 mkdir -p .github/skills
-cp -R /path/to/ai-toolkit/skills/* .github/skills/
+cp -R /path/to/agentkitx/skills/* .github/skills/
 ```
 
 Also supported:
 
 ```bash
 mkdir -p .agents/skills
-cp -R /path/to/ai-toolkit/skills/* .agents/skills/
+cp -R /path/to/agentkitx/skills/* .agents/skills/
 ```
 
 Copy only the skills you need, or copy all and remove unused folders.
