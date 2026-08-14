@@ -9,17 +9,17 @@ Canonical skills live in `[skills/](skills/)`. Install them into your IDE’s pr
 From your project root:
 
 ```bash
-npx ai-dev-toolkit
+npx agentkitx
 ```
 
 The interactive wizard walks you through IDE selection, install location, and skill choices. Subcommands are also available:
 
 ```bash
-npx ai-dev-toolkit init          # setup wizard
-npx ai-dev-toolkit add           # add skills to an existing install
-npx ai-dev-toolkit list          # show skill catalog
-npx ai-dev-toolkit reference     # print reference.md customization prompt
-npx ai-dev-toolkit doctor        # verify an installation
+npx agentkitx init          # setup wizard
+npx agentkitx add           # add skills to an existing install
+npx agentkitx list          # show skill catalog
+npx agentkitx reference     # print reference.md customization prompt
+npx agentkitx doctor        # verify an installation
 ```
 
 ## Table of contents
@@ -37,7 +37,7 @@ npx ai-dev-toolkit doctor        # verify an installation
 
 Pick your tool and follow its install guide. Each guide covers install path, how to invoke skills, and where to customize `reference.md`.
 
-Prefer `npx ai-dev-toolkit` for install; use the guides below for IDE-specific paths and invocation details.
+Prefer `npx agentkitx` for install; use the guides below for IDE-specific paths and invocation details.
 
 | IDE            | Guide                                                      |
 | -------------- | ---------------------------------------------------------- |

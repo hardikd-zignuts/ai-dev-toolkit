@@ -7,7 +7,7 @@ Install AI Dev Toolkit skills for [GitHub Copilot](https://docs.github.com/en/co
 **Recommended** — from your project root:
 
 ```bash
-npx ai-dev-toolkit
+npx agentkitx
 ```
 
 Select **GitHub Copilot** and your preferred project path (`.github/skills` or `.agents/skills`) when prompted.

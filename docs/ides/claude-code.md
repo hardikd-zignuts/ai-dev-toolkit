@@ -7,7 +7,7 @@ Install AI Dev Toolkit skills for [Claude Code](https://code.claude.com).
 **Recommended** — from your project root:
 
 ```bash
-npx ai-dev-toolkit
+npx agentkitx
 ```
 
 Select **Claude Code** and **This project** when prompted.
