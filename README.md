@@ -19,7 +19,6 @@ npx agentkitx init          # setup wizard
 npx agentkitx add           # add skills to an existing install
 npx agentkitx list          # show skill catalog
 npx agentkitx reference     # print reference.md customization prompt
-npx agentkitx doctor        # verify an installation
 ```
 
 ## Table of contents
@@ -30,7 +29,6 @@ npx agentkitx doctor        # verify an installation
 - [Skills](#skills)
 - [Workflows](#workflows)
 - [Prompts](#prompts)
-- [Code review](#code-review)
 - [Husky / Git hooks](#husky--git-hooks)
 
 ## Choose your IDE
@@ -159,13 +157,6 @@ Catalog guide: [`prompts/README.md`](prompts/README.md)
 | [API Client Setup](prompts/api-client-setup.md) | Networking | Axios / Fetch / Ofetch (React, Next.js, Vue, Nuxt, Svelte) | [api-client-setup.md](prompts/api-client-setup.md) |
 | [State Store Setup](prompts/state-store-setup.md) | State Management | Zustand, Pinia, Redux Toolkit, Svelte Stores | [state-store-setup.md](prompts/state-store-setup.md) |
 | [Theme Provider Setup](prompts/theme-provider-setup.md) | UI System | Light/Dark mode for React, Next.js, Vue, Nuxt, Svelte | [theme-provider-setup.md](prompts/theme-provider-setup.md) |
-
-
-
-
-## Code review
-
-Extended review automation beyond the [ai-code-review](skills/ai-code-review/SKILL.md) skill. Coming soon.
 
 ## Husky / Git hooks
 
