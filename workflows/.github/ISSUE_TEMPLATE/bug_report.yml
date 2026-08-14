@@ -1,0 +1,40 @@
+name: Bug Report
+description: Report a bug in the Student Assessment Portal
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: Use /debug with this issue for root-cause analysis before planning a fix.
+  - type: input
+    id: ticket
+    attributes:
+      label: Jira ticket (if exists)
+      placeholder: AZE-###
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Include URL under /student/, actions, expected vs actual
+    validations:
+      required: true
+  - type: textarea
+    id: console
+    attributes:
+      label: Console or network errors
+  - type: dropdown
+    id: domain
+    attributes:
+      label: Affected area
+      options:
+        - Auth / login
+        - Assessment-taking
+        - Proctoring / security
+        - Audio / recording
+        - Exam timer / connectivity
+        - Notifications (FCM)
+        - Payments
+        - Dashboard / other
+    validations:
+      required: true
