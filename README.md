@@ -2,7 +2,7 @@
 
 Portable [Agent Skills](https://agentskills.io) for AI-assisted software development — works across Cursor, Claude Code, Antigravity, GitHub Copilot, Windsurf, and other tools that load `SKILL.md`.
 
-Canonical skills live in [`skills/`](skills/). Install them into your IDE’s project skills folder with the CLI (recommended) or copy manually.
+Canonical skills live in `[skills/](skills/)`. Install them into your IDE’s project skills folder with the CLI (recommended) or copy manually.
 
 ## Quick install
 
@@ -37,7 +37,7 @@ npx ai-dev-toolkit doctor        # verify an installation
 
 Pick your tool and follow its install guide. Each guide covers install path, how to invoke skills, and where to customize `reference.md`.
 
-Prefer **`npx ai-dev-toolkit`** for install; use the guides below for IDE-specific paths and invocation details.
+Prefer `npx ai-dev-toolkit` for install; use the guides below for IDE-specific paths and invocation details.
 
 | IDE            | Guide                                                      |
 | -------------- | ---------------------------------------------------------- |
@@ -116,4 +116,11 @@ Extended review automation beyond the [ai-code-review](skills/ai-code-review/SKI
 
 ## Husky / Git hooks
 
-Git hook integrations and developer automation. Coming soon.
+Copy-paste Git hook templates for **lint/format on staged files**, **full-project typecheck**, and **Conventional Commits**. Minimal wiring only — your project should already have eslint, prettier, and TypeScript set up.
+
+| Hook | Action |
+| ---- | ------ |
+| `pre-commit` | lint-staged → `tsc --noEmit` |
+| `commit-msg` | commitlint (conventional commits) |
+
+Templates live in [`templates/husky/`](templates/husky/). See [templates/husky/README.md](templates/husky/README.md) for install steps, verification, and customization.
