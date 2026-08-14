@@ -1,0 +1,48 @@
+name: Feature Request
+description: Request a new feature or enhancement
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: Use /intake or /feature with this issue to start the AI workflow.
+  - type: input
+    id: ticket
+    attributes:
+      label: Issue / Ticket ID (if exists)
+      placeholder: PROJ-###
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What should be built and why?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance criteria
+      description: Testable criteria, one per line
+    validations:
+      required: true
+  - type: dropdown
+    id: size_hint
+    attributes:
+      label: Estimated size
+      options:
+        - trivial
+        - small
+        - medium
+        - large
+        - unknown
+  - type: checkboxes
+    id: cross_team
+    attributes:
+      label: Cross-team impact
+      options:
+        - label: Backend API changes required
+        - label: Shared components or design system affected
+        - label: Auth or security logic touched
+        - label: Database or data schema update needed
+        - label: Third-party service integration

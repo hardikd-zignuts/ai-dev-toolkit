@@ -9,4 +9,31 @@ export interface InstallContext {
   installedSkills: string[];
 }
 
-export type MenuAction = "init" | "add" | "list" | "reference" | "doctor" | "exit";
+export type AssetKind = "skills" | "prompts" | "workflows" | "templates";
+
+export type SetupType = "all" | "skills" | "workflows" | "prompts" | "husky";
+
+export interface SetupPromptMeta {
+  id: string;
+  title: string;
+  category: string;
+  frameworks: string;
+  fileName: string;
+  filePath: string;
+}
+
+export interface WorkflowMeta {
+  id: string;
+  name: string;
+  description: string;
+  files: string[];
+}
+
+export type MenuAction =
+  | "setup"
+  | "add"
+  | "reference"
+  | "prompts"
+  | "list"
+  | "doctor"
+  | "exit";

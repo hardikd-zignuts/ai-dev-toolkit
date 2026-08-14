@@ -9,13 +9,13 @@
   "files": [
     "bin",
     "dist",
-    "assets/skills"
+    "assets"
   ],
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/index.ts",
-    "sync-skills": "node scripts/sync-skills.mjs",
-    "prepublishOnly": "npm run sync-skills && npm run build"
+    "sync-assets": "node scripts/sync-assets.mjs",
+    "prepublishOnly": "npm run sync-assets && npm run build"
   },
   "engines": {
     "node": ">=18"

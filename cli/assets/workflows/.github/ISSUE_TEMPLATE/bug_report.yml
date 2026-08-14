@@ -1,0 +1,40 @@
+name: Bug Report
+description: Report a bug in the application
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: Use /debug with this issue for root-cause analysis before planning a fix.
+  - type: input
+    id: ticket
+    attributes:
+      label: Issue / Ticket ID (if exists)
+      placeholder: PROJ-###
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Include relevant URL, steps to reproduce, expected vs actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: console
+    attributes:
+      label: Console or network errors
+  - type: dropdown
+    id: domain
+    attributes:
+      label: Affected area
+      options:
+        - Auth / login
+        - Core UI / navigation
+        - Data fetching / API integration
+        - Notifications / alerts
+        - User settings / profile
+        - Performance / rendering
+        - Security / permissions
+        - Other / general
+    validations:
+      required: true

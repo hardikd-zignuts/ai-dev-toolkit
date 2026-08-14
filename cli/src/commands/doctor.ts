@@ -1,91 +1,74 @@
 import fs from "node:fs";
+import path from "node:path";
 import chalk from "chalk";
-import { select } from "@inquirer/prompts";
 import { KNOWN_SKILL_PATHS } from "../constants/ides.js";
-import { listInstalledSkills } from "../lib/copy-skills.js";
-import { resolveTargetPath } from "../lib/paths.js";
-import { error, heading, info, success, warn } from "../lib/ui.js";
 
 export interface DoctorOptions {
   root?: string;
   cwd?: string;
 }
 
-function checkSkillFolder(skillDir: string): { valid: string[]; invalid: string[] } {
-  const valid: string[] = [];
-  const invalid: string[] = [];
-
-  for (const folder of listInstalledSkills(skillDir)) {
-    const skillMd = `${skillDir}/${folder}/SKILL.md`;
-    const referenceMd = `${skillDir}/${folder}/reference.md`;
-
-    if (fs.existsSync(skillMd) && fs.existsSync(referenceMd)) {
-      valid.push(folder);
-    } else {
-      invalid.push(folder);
-    }
-  }
-
-  return { valid, invalid };
-}
-
-export async function runDoctor(options: DoctorOptions = {}): Promise<boolean> {
+export async function runDoctor(options: DoctorOptions = {}): Promise<void> {
   const cwd = options.cwd ?? process.cwd();
-  let targetRoot = options.root;
+  console.log(chalk.bold("\n🩺 AgentKitX System & Installation Doctor\n"));
 
-  if (!targetRoot) {
-    const existing = KNOWN_SKILL_PATHS.filter((candidate) =>
-      fs.existsSync(resolveTargetPath(candidate, cwd)),
-    );
+  let foundInstalls = 0;
+  const pathsToCheck = options.root ? [options.root] : KNOWN_SKILL_PATHS;
 
-    if (existing.length === 0) {
-      error("No skills directory found. Run `npx agentkitx init` first.");
-      return false;
-    }
+  for (const relPath of pathsToCheck) {
+    const fullPath = path.resolve(cwd, relPath);
+    if (!fs.existsSync(fullPath)) continue;
 
-    if (existing.length === 1) {
-      targetRoot = existing[0];
-    } else {
-      targetRoot = await select({
-        message: "Which skills directory should we check?",
-        choices: existing.map((path) => ({ name: path, value: path })),
-      });
+    foundInstalls++;
+    console.log(chalk.green(`✓ Found skill installation at: ${relPath}`));
+
+    const entries = fs.readdirSync(fullPath, { withFileTypes: true });
+    for (const entry of entries) {
+      if (!entry.isDirectory()) continue;
+      const skillName = entry.name;
+      const skillDir = path.join(fullPath, skillName);
+      const skillFile = path.join(skillDir, "SKILL.md");
+      const refFile = path.join(skillDir, "reference.md");
+
+      const hasSkill = fs.existsSync(skillFile);
+      const hasRef = fs.existsSync(refFile);
+
+      if (hasSkill && hasRef) {
+        console.log(`  └─ ${chalk.cyan(skillName)}: SKILL.md [✓], reference.md [✓]`);
+      } else if (hasSkill) {
+        console.log(`  └─ ${chalk.yellow(skillName)}: SKILL.md [✓], reference.md [✗ missing]`);
+      } else {
+        console.log(`  └─ ${chalk.red(skillName)}: Invalid skill directory`);
+      }
     }
   }
 
-  const targetDir = resolveTargetPath(targetRoot, cwd);
-
-  heading("Installation check");
-  info(`Checking ${targetRoot}`);
-
-  if (!fs.existsSync(targetDir)) {
-    error(`Directory not found: ${targetDir}`);
-    return false;
+  if (foundInstalls === 0) {
+    console.log(chalk.yellow("! No skill installations detected in standard project locations."));
+    console.log(chalk.dim("  Run 'npx agentkitx setup' to install skills into your IDE."));
   }
 
-  const { valid, invalid } = checkSkillFolder(targetDir);
+  console.log(chalk.bold("\n🔄 AI Workflows Check:"));
+  const hasGithubWf = fs.existsSync(path.join(cwd, ".github", "prompts"));
+  const hasClaudeWf = fs.existsSync(path.join(cwd, ".claude", "skills"));
+  const hasWfRef = fs.existsSync(path.join(cwd, "workflows-reference.md")) || fs.existsSync(path.join(cwd, "reference.md"));
 
-  if (valid.length === 0 && invalid.length === 0) {
-    warn("No skill folders found.");
-    return false;
+  if (hasGithubWf || hasClaudeWf) {
+    console.log(chalk.green(`✓ AI Workflows active (GitHub: ${hasGithubWf ? "yes" : "no"}, Claude: ${hasClaudeWf ? "yes" : "no"})`));
+    console.log(`  └─ reference.md status: ${hasWfRef ? chalk.green("✓ Present") : chalk.yellow("⚠ Missing (run 'npx agentkitx setup --type workflow')")}`);
+  } else {
+    console.log(chalk.dim("  No active AI Workflows pipeline found."));
+  }
+
+  console.log(chalk.bold("\n⚓ Git Hooks / Husky Check:"));
+  const hasPreCommit = fs.existsSync(path.join(cwd, ".husky", "pre-commit"));
+  const hasCommitMsg = fs.existsSync(path.join(cwd, ".husky", "commit-msg"));
+
+  if (hasPreCommit || hasCommitMsg) {
+    console.log(chalk.green(`✓ Git Hooks installed (pre-commit: ${hasPreCommit ? "yes" : "no"}, commit-msg: ${hasCommitMsg ? "yes" : "no"})`));
+  } else {
+    console.log(chalk.dim("  No .husky git hooks found."));
   }
 
   console.log();
-  if (valid.length > 0) {
-    success(`${valid.length} valid skill${valid.length === 1 ? "" : "s"}:`);
-    for (const folder of valid) {
-      console.log(`  ${chalk.green("✔")} ${folder}`);
-    }
-  }
-
-  if (invalid.length > 0) {
-    console.log();
-    warn(`${invalid.length} incomplete skill${invalid.length === 1 ? "" : "s"}:`);
-    for (const folder of invalid) {
-      console.log(`  ${chalk.yellow("⚠")} ${folder} (missing SKILL.md or reference.md)`);
-    }
-  }
-
-  console.log();
-  return invalid.length === 0;
 }
