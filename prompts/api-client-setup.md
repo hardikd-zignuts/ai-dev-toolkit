@@ -1,52 +1,51 @@
 ---
 title: API Client Setup
 category: Networking
-description: Quick setup prompt for Axios or Fetch API Client with request/response interceptors, Bearer token injection, refresh token rotation, and global error handling.
-tags: [api-client, axios, fetch, interceptors, jwt, refresh-token, typescript, error-handling]
+description: Universal setup prompt for Axios or Fetch API Client with request/response interceptors, Bearer token injection, refresh token rotation, and error parsing across React, Next.js, Vue, Nuxt, and Svelte.
+tags: [api-client, axios, fetch, interceptors, jwt, refresh-token, react, nextjs, vue, nuxt, svelte, typescript]
 ---
 
-# API Client & Interceptors Setup Prompt
+# Universal API Client & Interceptors Setup Prompt
 
-Use this prompt to set up a production-ready HTTP API Client (Axios or Fetch wrapper) with automatic JWT Bearer token injection, transparent refresh token rotation, request cancellation, and standardized error handling.
+Use this prompt to set up a production-ready HTTP API Client (Axios or Fetch wrapper) with automatic JWT Bearer token injection, transparent refresh token rotation, request cancellation, and standardized error parsing across React, Next.js, Vue 3, Nuxt, or SvelteKit projects.
 
 ---
 
 ## Copy & Paste Prompt
 
 ```text
-Set up a robust API Client with request/response interceptors and token refresh logic in this repository.
+Set up a robust HTTP API Client with request/response interceptors and token refresh logic for this repository.
 
-### Project Details
-- HTTP Library: <Axios / Native Fetch wrapper>
-- Base URL & Env: <VITE_API_BASE_URL / NEXT_PUBLIC_API_URL>
-- Token Storage: <HttpOnly Cookie / LocalStorage / Memory + Refresh Cookie>
-- Target Directory: <src/lib/api or src/services/api>
+### Framework Auto-Detection & Adaptation
+1. Inspect this project's dependencies and structure to auto-detect:
+   - Preferred HTTP Tool: Axios (if installed) or native `fetch` / Ofetch / `$fetch` (Nuxt).
+   - Environment Base URL Variable: `VITE_API_BASE_URL`, `NEXT_PUBLIC_API_URL`, or `NUXT_PUBLIC_API_BASE`.
+2. Adapt code generation and file structure (.ts) to match this project's stack.
 
-### Requirements & Best Practices
+### Setup Requirements
 
-1. Client Instance & Base Config (`apiClient.ts`):
-   - Create Axios instance / Fetch wrapper configured with `baseURL`, `timeout` (e.g. 15000ms), and default headers (`Content-Type: application/json`).
+1. Client Instance & Configuration (`apiClient.ts`):
+   - Create client instance configured with `baseURL`, `timeout` (15000ms), and default `Content-Type: application/json` headers.
 
 2. Request Interceptor:
-   - Inject Authorization Bearer header (`Authorization: Bearer <token>`) automatically if token exists.
-   - Attach unique Request ID or language headers if required.
+   - Auto-inject Authorization Bearer token header (`Authorization: Bearer <token>`) when token exists in storage/cookie.
 
-3. Response Interceptor & Token Refresh (`interceptors/authInterceptor.ts`):
-   - Catch `401 Unauthorized` responses automatically.
-   - Implement queue mechanism to pause pending failed requests while refreshing the access token (`POST /auth/refresh`).
-   - If token refresh succeeds, retry failed queued requests with the new token.
-   - If token refresh fails, clear auth state and redirect to `/login`.
+3. Response Interceptor & Token Refresh (`authInterceptor.ts`):
+   - Intercept `401 Unauthorized` responses.
+   - Implement a queue mechanism to pause pending failed requests while requesting a new access token via `/auth/refresh`.
+   - On successful refresh, retry all queued failed requests with the new access token.
+   - On failed refresh, clear stored auth tokens and dispatch an unauthenticated event or redirect to `/login`.
 
-4. Error Normalization (`apiError.ts`):
-   - Define custom `ApiError` class with properties `status`, `code`, `message`, and `validationErrors`.
-   - Normalize network errors, timeouts, 4xx client errors, and 5xx server errors into consistent `ApiError` objects.
+4. Standardized Error Handling (`apiError.ts`):
+   - Create custom `ApiError` class with `status`, `code`, `message`, and `validationErrors` attributes.
+   - Normalize network timeouts, client errors (4xx), and server errors (5xx) into consistent `ApiError` objects.
 
-5. Type-Safe Helper Methods (`http.ts`):
-   - Export strongly-typed HTTP methods (`http.get<T>`, `http.post<T>`, `http.put<T>`, `http.delete<T>`).
+5. Strongly Typed HTTP Utility Methods (`http.ts`):
+   - Export type-safe HTTP helpers: `http.get<T>`, `http.post<T>`, `http.put<T>`, `http.patch<T>`, `http.delete<T>`.
 
-### Expected Files Output
-- `apiClient.ts` (Axios / Fetch client instance & config)
-- `apiError.ts` (Standardized ApiError class & error parser)
-- `authInterceptor.ts` (Automatic token injection & 401 refresh token queue)
-- `http.ts` (Strongly typed helper methods)
+### Expected Output
+- API client instance configuration file (`apiClient.ts`)
+- ApiError class & error parser file (`apiError.ts`)
+- Token injection & 401 refresh token interceptor file (`authInterceptor.ts`)
+- Typed HTTP wrapper functions file (`http.ts`)
 ```

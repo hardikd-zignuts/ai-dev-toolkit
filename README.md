@@ -146,19 +146,20 @@ Present a plan first; apply edits only after I approve.
 
 ## Prompts
 
-Reusable, battle-tested quick setup prompts for repository boilerplate, core frontend architecture, and infrastructure integrations across React, Next.js, Vue, Svelte, and TypeScript projects.
+Universal, battle-tested quick setup prompts for repository boilerplate, core frontend architecture, and infrastructure integrations across **React**, **Vite**, **Next.js**, **Vue 3**, **Nuxt**, **SvelteKit**, and **TypeScript** projects.
 
 Catalog guide: [`prompts/README.md`](prompts/README.md)
 
-| Setup Prompt | Category | Infrastructure Focus | File |
-| ------------ | -------- | -------------------- | ---- |
-| [Auth Guards Setup](prompts/auth-guards-setup.md) | Security / Routing | Protected routes, Auth Context, role-based guards, & redirect logic | [auth-guards-setup.md](prompts/auth-guards-setup.md) |
-| [Layouts Setup](prompts/layouts-setup.md) | Architecture | App Shell, Dashboard layout (Header/Sidebar), Auth layout, & Error Boundaries | [layouts-setup.md](prompts/layouts-setup.md) |
-| [React Query Setup](prompts/react-query-setup.md) | Data Fetching | TanStack Query client defaults, Provider, Devtools, & Query Key Factory | [react-query-setup.md](prompts/react-query-setup.md) |
-| [Firebase Setup](prompts/firebase-setup.md) | Backend / BaaS | Firebase SDK (Auth, Firestore, Storage) with env validation & typed hooks | [firebase-setup.md](prompts/firebase-setup.md) |
-| [API Client Setup](prompts/api-client-setup.md) | Networking | Axios / Fetch client, Bearer token injection, refresh token rotation, & error handling | [api-client-setup.md](prompts/api-client-setup.md) |
-| [State Store Setup](prompts/state-store-setup.md) | State Management | Zustand / Redux / Pinia store setup with TypeScript, persist middleware, & devtools | [state-store-setup.md](prompts/state-store-setup.md) |
-| [Theme Provider Setup](prompts/theme-provider-setup.md) | UI System | Light/Dark mode provider, OS color scheme detection, & CSS variables setup | [theme-provider-setup.md](prompts/theme-provider-setup.md) |
+| Setup Prompt | Category | Framework Support | File |
+| ------------ | -------- | ----------------- | ---- |
+| [Auth Guards Setup](prompts/auth-guards-setup.md) | Security / Routing | React, Next.js, Vue, Nuxt, SvelteKit | [auth-guards-setup.md](prompts/auth-guards-setup.md) |
+| [Layouts Setup](prompts/layouts-setup.md) | Architecture | React, Next.js, Vue, Nuxt, SvelteKit | [layouts-setup.md](prompts/layouts-setup.md) |
+| [TanStack Query Setup](prompts/tanstack-query-setup.md) | Data Fetching | React Query, Vue Query, Svelte Query, Next.js, Nuxt | [tanstack-query-setup.md](prompts/tanstack-query-setup.md) |
+| [Firebase Setup](prompts/firebase-setup.md) | Backend / BaaS | React, Next.js, Vue, Nuxt, SvelteKit | [firebase-setup.md](prompts/firebase-setup.md) |
+| [API Client Setup](prompts/api-client-setup.md) | Networking | Axios / Fetch / Ofetch (React, Next.js, Vue, Nuxt, Svelte) | [api-client-setup.md](prompts/api-client-setup.md) |
+| [State Store Setup](prompts/state-store-setup.md) | State Management | Zustand, Pinia, Redux Toolkit, Svelte Stores | [state-store-setup.md](prompts/state-store-setup.md) |
+| [Theme Provider Setup](prompts/theme-provider-setup.md) | UI System | Light/Dark mode for React, Next.js, Vue, Nuxt, Svelte | [theme-provider-setup.md](prompts/theme-provider-setup.md) |
+
 
 
 

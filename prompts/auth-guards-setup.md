@@ -1,53 +1,52 @@
 ---
 title: Auth Guards Setup
 category: Security / Routing
-description: Quick setup prompt for route protection, authentication context, role-based guards, and redirect logic.
-tags: [auth, guard, routing, react-router, nextjs, middleware, typescript, security]
+description: Universal setup prompt for route protection, authentication context/store, role-based guards, and redirect logic across React, Next.js, Vue, Nuxt, and SvelteKit.
+tags: [auth, guard, routing, react, nextjs, vue, nuxt, svelte, middleware, typescript, security]
 ---
 
-# Auth Guards & Protected Routes Setup Prompt
+# Universal Auth Guards & Protected Routes Setup Prompt
 
-Use this prompt to set up authentication guards, protected route wrappers, AuthContext/Provider, role-based access control (RBAC), and unauthenticated redirect workflows in your repository.
+Use this prompt to set up authentication guards, protected route wrappers, AuthContext/Store, role-based access control (RBAC), and redirect workflows in any frontend repository (React, Next.js, Vite, Vue, Nuxt, SvelteKit).
 
 ---
 
 ## Copy & Paste Prompt
 
 ```text
-Set up a complete Authentication Guard & Route Protection system in this codebase.
+Set up a complete Authentication Guard & Route Protection system for this repository.
 
-### Project Details
-- Framework & Router: <React Router v6/v7 / Next.js App Router / Vue Router>
-- Auth Strategy: <JWT / Session Cookie / Firebase Auth / Supabase Auth / OAuth>
-- Target Directory: <src/auth or src/components/guards or src/providers>
+### Framework Auto-Detection & Adaptation
+1. Inspect this project's dependencies and structure to auto-detect:
+   - Framework & Router: React (Vite / React Router v6/v7), Next.js (App Router `middleware.ts` / Pages Router), Vue 3 (Vite / Vue Router), Nuxt (`middleware/auth.ts`), or SvelteKit (`hooks.server.ts`).
+   - File Conventions: `.tsx`, `.ts`, `.vue`, or `.svelte`.
+2. Do not invent new routing frameworks — match the exact router and conventions used in this codebase.
 
-### Requirements & Best Practices
+### Setup Requirements
 
-1. Auth Context & Provider (`AuthContext.tsx` / `AuthProvider.tsx`):
-   - Define `User` interface, `AuthState` (user, isAuthenticated, isLoading, error), and `AuthContextValue`.
-   - Provide login, logout, and token refresh/session revalidation methods.
-   - Support persistent auth state checks on application mount (e.g. token validation or session restoration).
+1. Auth State Provider / Store:
+   - React / Next.js: `AuthContext` + `AuthProvider` + `useAuth()` hook.
+   - Vue / Nuxt: Pinia auth store (`useAuthStore()`) or `provide`/`inject`.
+   - SvelteKit: Svelte auth store or `locals` session hook.
+   - State fields: `user`, `isAuthenticated`, `isLoading`, `error`, plus `login()`, `logout()`, and `refreshSession()` methods.
 
-2. Protected Route Guard (`ProtectedRoute` / `AuthGuard`):
-   - Wrap protected page components or layout routes.
-   - Show a loading spinner / fallback while checking authentication status.
-   - If unauthenticated, redirect to `/login` with `from` state parameter (to return to requested page after login).
+2. Protected Route Guard:
+   - React/Vite: `<ProtectedRoute>` wrapper checking `isAuthenticated` and rendering `<Outlet />` or `children`.
+   - Next.js: `middleware.ts` intercepting protected path prefixes (e.g. `/dashboard/*`) + client guard hook.
+   - Vue / Nuxt: Router navigation guard (`router.beforeEach`) or Nuxt page middleware (`defineNuxtRouteMiddleware`).
+   - Behavior: Show loading fallback while validating auth status. If unauthenticated, redirect to `/login` preserving target return URL.
 
-3. Role-Based Access Control Guard (`RoleGuard` / `RequireRole`):
-   - Support role authorization checks (e.g. `allowedRoles={['admin', 'manager']}`).
-   - Show a `403 Forbidden` / `Unauthorized` page or redirect to `/unauthorized` if user lacks required role.
+3. Role-Based Access Control (RBAC):
+   - Support role permissions (e.g. `allowedRoles: ['admin', 'manager']`).
+   - Redirect to `/403` / `/unauthorized` or render an unauthorized error state if the user lacks permissions.
 
-4. Public-Only Guard (`GuestGuard` / `PublicOnlyRoute`):
-   - Prevent authenticated users from visiting `/login`, `/register`, or `/forgot-password`, automatically redirecting them to `/dashboard`.
+4. Guest / Public-Only Guard:
+   - Prevent logged-in users from accessing `/login`, `/register`, or `/forgot-password`, automatically redirecting them to `/dashboard`.
 
-5. Type Safety & Exports:
-   - Export convenient hooks (e.g. `useAuth()`, `useUser()`).
-   - Include inline JSDoc comments explaining guard usage with example code snippets.
-
-### Expected Files Output
-- `AuthProvider.tsx` (Context, State, and custom `useAuth()` hook)
-- `ProtectedRoute.tsx` (Authentication route wrapper)
-- `RoleGuard.tsx` (Role-based access guard wrapper)
-- `GuestGuard.tsx` (Public-only route wrapper)
-- `index.ts` barrel export file
+### Expected Output
+- Framework-native Auth Provider / Store file
+- Protected Route Guard / Middleware file
+- Role-Based Access Guard file
+- Guest Route Guard file
+- Barrel export file (`index.ts`)
 ```
