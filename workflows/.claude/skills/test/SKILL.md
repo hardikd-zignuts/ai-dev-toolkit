@@ -1,30 +1,28 @@
 ---
 name: test
-description: Document manual browser verification; E2E deferred. Run npm run build. Use after implement or as step 5 of /feature.
+description: Document manual verification and execute QA/build commands from reference.md. Use after implement or as step 5 of /feature.
 ---
 
 # test
 
-Verify behavior through manual browser QA. No automated test runner configured.
+Verify behavior through automated tests (if configured) and manual verification.
 
 ## Project Context
 
-**ZA-Assessments-Portal-FE** — no `npm test` in package.json. Do **not** auto-install Vitest unless user explicitly requests.
-
-## Future: E2E (Playwright/Cypress) — not yet configured
+Read `reference.md` (project root or workflows install path) for QA commands (test runner, build script) and manual QA domain checklist.
 
 ## Procedure
 
-1. Check package.json for test script; run if present.
-2. Map each AC to browser steps (base path `/student/`).
-3. Bugfixes: use `/debug` reproduction; re-run manually.
-4. Always `npm run build`.
-5. Domain checks: auth, assessment, proctoring, audio, FCM, payments.
+1. Check `reference.md` under **QA commands** for test command; run if configured (output `N/A` if none).
+2. Map each AC to manual verification steps (using app base path from `reference.md`).
+3. For bugfixes: re-run reproduction steps from `/debug`.
+4. Always execute the build command specified in `reference.md` (e.g. `npm run build`).
+5. Perform domain checks based on **Manual QA domains** table in `reference.md`.
 
 ## Output
 
 ```
-Test runner: none | <if configured>
+Test runner: none | <test command result>
 Build: pass/fail
 Manual verification per AC
 all_green: true|false

@@ -1,31 +1,36 @@
 ---
-mode: agent
+agent: agent
 description: Root-cause analysis for bugs. Use BEFORE plan for bug tickets.
 ---
 
-# debug (ZA-Assessments-Portal-FE — Student Portal)
+# debug
 
-Evidence-based root-cause analysis for the Student Portal.
+Evidence-based root-cause analysis for bug reports.
 
-## Common bug sources
-- React Query stale cache / wrong queryKey
-- Redux persist hydration mismatch
-- Auth / LTI session stale after login
-- Axios interceptor swallowing errors
-- React Router v6 context issues
-- Firebase FCM / service worker
-- Proctoring / TestSessionSecurityHost strike flow
-- react-hook-form reset before data loads
-- Sonner / Toaster missing from tree
+## Project Context
+
+Read `reference.md` (project root or workflows install path) for stack details, path aliases, and common component architecture.
+
+## Common bug categories to investigate
+
+- State management / cache hydration mismatch
+- API client interceptors / auth token expiration
+- Routing context & navigation params
+- Form state validation / timing issues
+- Async lifecycle & race conditions
+- Notification / toast service initialization
+- Component prop mismatches & type errors
 
 ## Procedure
-1. Deterministic reproduction (URL under `/student/`, steps, expected vs actual)
-2. 2–3 competing hypotheses
-3. Cheapest disproof per hypothesis
-4. Run disproofs; mark surviving/eliminated
-5. Root cause with `file:line`
-6. Fix hypothesis (not full implementation)
+
+1. Deterministic reproduction (steps, expected vs actual)
+2. Formulate 2–3 testable hypotheses
+3. Identify cheapest disproof for each
+4. Execute disproofs; mark surviving/eliminated
+5. Establish root cause with `file:line` evidence
+6. Propose fix hypothesis (not full implementation)
 
 ## Output
-Reproduction, hypotheses table, root cause, fix hypothesis.
-Next: `/intake` then `/plan`.
+
+Reproduction steps, hypotheses table, root cause, fix hypothesis.
+Next step: `/intake` then `/plan`.

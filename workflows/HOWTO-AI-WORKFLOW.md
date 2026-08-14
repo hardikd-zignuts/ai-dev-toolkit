@@ -1,37 +1,62 @@
-# How to Run the AI Development Workflow
+# AI Development Workflow
 
-**Repo:** `ZA-Assessments-Portal-FE` (AZE Student Assessment Portal)  
-**Goal:** Take an AZE ticket from description to a reviewed PR — with human approval gates and Student Portal conventions enforced.
+A portable, 7-stage AI development pipeline (`intake` → `research` → `plan` → `implement` → `test` → `review` → `ship`) designed to drive feature implementation and bugfixes from ticket description to reviewed PR, with built-in human approval gates.
 
 ---
 
-## Quick start (Cursor — recommended)
+## Quick start
+
+### In Cursor / Claude Code / Antigravity
 
 ```text
-/feature AZE-123
+/feature PROJ-123
 ```
 
-Or attach the orchestrator prompt:
+Or invoke the master orchestrator prompt:
 
 ```text
-@.github/prompts/feature.prompt.md AZE-123
+@.github/prompts/feature.prompt.md PROJ-123
 ```
 
-Reply at each gate:
+Reply at each gate during execution:
 
-| Gate | When | Reply |
-|------|------|-------|
-| **GATE 1** | After the plan | `approve` · `modify: <feedback>` · `reject` |
+| Gate | When | Reply options |
+|------|------|---------------|
+| **GATE 1** | After plan generation | `approve` · `modify: <feedback>` · `reject` |
 | **GATE 2** | After implementation | `continue` · `pause` · `request changes: <notes>` |
-| **GATE 3** | Proctoring/security files touched | `approve` · `request changes` · `escalate` |
+| **GATE 3** | Sensitive paths touched (if configured) | `approve` · `request changes` · `escalate` |
 
 ---
 
-## The pipeline
+## Installation & Setup
+
+### 1. Copy workflows into your repository
+
+From `ai-dev-toolkit` (or after `npx ai-dev-toolkit`):
+
+```bash
+cp -R workflows/.github .github/          # merge prompts + issue templates
+cp -R workflows/.claude .claude/          # merge skills
+cp workflows/HOWTO-AI-WORKFLOW.md ./docs/ # or project root
+cp workflows/reference.md ./              # customize next
+```
+
+### 2. Customize `reference.md`
+
+Before running your first workflow, customize `reference.md` for your codebase. Paste the **Plan-mode customization prompt** (found in the root [`README.md`](../README.md#workflows)) into your AI IDE to inspect your repository and populate `reference.md` with accurate paths, stack details, and test commands.
+
+### 3. PR tooling
+
+- Ensure `gh` CLI is installed and authenticated (`gh auth status`) for PR creation during `/ship`.
+- Check that branch naming conventions match `reference.md` (e.g. `feat/{TICKET-ID}-{desc}`).
+
+---
+
+## The Pipeline
 
 ```text
 intake → research → plan → GATE 1
-→ implement → GATE 2 → GATE 3 (if proctoring)
+→ implement → GATE 2 → GATE 3 (optional security review)
 → test → review → ship → PR
 ```
 
@@ -42,7 +67,7 @@ flowchart TD
   plan --> gate1["GATE 1: approve plan"]
   gate1 --> implement["/implement"]
   implement --> gate2["GATE 2: approve diff"]
-  gate2 --> check{Touches proctoring?}
+  gate2 --> check{Touches security paths?}
   check -->|Yes| gate3["GATE 3: security review"]
   check -->|No| test["/test"]
   gate3 --> test
@@ -51,267 +76,145 @@ flowchart TD
   ship --> pr["PR opened"]
 ```
 
-**Important:** `/implement` leaves changes **uncommitted**. Only `/ship` runs `git commit` and opens the PR.
+> **Important:** `/implement` leaves code changes **uncommitted**. Only `/ship` creates git commits and opens the PR.
 
 ---
 
-## One-time setup
+## Choose your AI Tool
 
-### 1. Project
-
-```bash
-git clone https://github.com/studyboxworld/ZA-Assessments-Portal-FE.git
-cd ZA-Assessments-Portal-FE
-npm install
-npm run dev
-```
-
-App base path: `/student/` → `http://localhost:5173/student/`
-
-### 2. Jira intake (Cursor)
-
-1. Enable MCP server: `plugin-atlassian-atlassian`
-2. Authenticate with your Atlassian workspace
-3. Run `/intake AZE-123` or `/feature AZE-123`
-
-**Fallback:** If MCP is unavailable, paste ticket title, description, and acceptance criteria when asked (one retry only).
-
-### 3. PR tooling
-
-- `gh` CLI authenticated with GitHub
-- Branch naming: `feat/AZE-123`, `fix/AZE-456`
-
-### 4. GitHub Copilot (optional)
-
-In VS Code `settings.json`:
-
-```json
-"chat.promptFiles": true
-```
-
-Prompts live in `.github/prompts/`. See [COPILOT-README.md](COPILOT-README.md).
-
-### 5. Claude Code (optional)
-
-Skills live in `.claude/skills/`. See [CLAUDE-README.md](CLAUDE-README.md).
+| Tool | Entry Command | Behavior |
+|------|---------------|----------|
+| **Claude Code** | `/feature PROJ-123` | Master orchestrator skill chains stages & pauses at gates |
+| **Cursor** | `/feature PROJ-123` or `@.github/prompts/feature.prompt.md` | Auto-chains stage prompts & pauses at gates |
+| **GitHub Copilot** | `/intake` → `/research` → `/plan` … | Run prompts sequentially in chat, responding to gates |
+| **Antigravity** | `/feature PROJ-123` | Invokes workflow skills from `.claude/skills/` |
 
 ---
 
-## Choose your tool
+## Workflow Scenarios
 
-| Tool | Entry | Automation |
-|------|-------|------------|
-| **Cursor** | `/feature` or `@.github/prompts/feature.prompt.md` | Auto-chains stages + gates |
-| **Claude Code** | `/feature AZE-123` in repo root | Invokes sub-skills in order |
-| **GitHub Copilot** | `/intake` → `/research` → … manually | Same chat, you drive each stage |
-
----
-
-## Run by scenario
-
-### New feature (medium/large)
+### New Feature (Medium / Large)
 
 ```text
-/feature AZE-123
+/feature PROJ-123
 ```
 
-Approve GATE 1 (plan). Review diff at GATE 2. Complete GATE 3 if proctoring paths are in the plan.
+1. Stage 1: `intake` resolves ticket title, description, and acceptance criteria.
+2. Stage 2: `research` maps codebase files and conventions with `file:line` evidence.
+3. Stage 3: `plan` produces an implementation plan with quality analysis and risk rating.
+4. **GATE 1:** User reviews and approves plan.
+5. Stage 4: `implement` creates branch and applies file edits.
+6. **GATE 2:** User reviews uncommitted diff.
+7. **GATE 3:** Security review (triggered if sensitive paths defined in `reference.md` are touched).
+8. Stage 5: `test` runs QA & build verification commands.
+9. Stage 6: `review` performs a fresh-context diff audit.
+10. Stage 7: `ship` creates Conventional Commit and opens PR.
 
-### Bug fix
+### Bug Fix
 
-Run debug **before** plan:
+Run `debug` **before** planning to find the root cause:
 
 ```text
-/debug Tab switch during listening test does not show strike warning
-/intake AZE-456
+/debug "Error description or steps to reproduce"
+/intake PROJ-456
 /plan
 ```
 
-Then continue through implement → test → review → ship.
+Then proceed through `implement` → `test` → `review` → `ship`.
 
-### Trivial change (<50 LOC, one file)
+### Trivial Change (<50 LOC, single file)
 
 ```text
-/feature "fix typo on consent screen button label"
+/feature "fix typo in navigation header label"
 ```
 
-Orchestrator may skip research/plan/review; GATE 1 and GATE 2 may still apply for non-trivial work.
+Size routing skips full research/plan stages for trivial changes while maintaining verification safety.
 
-### Refactor only (no behavior change)
+### Refactor Only (No behavior change)
 
 ```text
 /refactor
 ```
 
-Or: intake → research → plan → GATE 1 → implement → manual QA → ship.
-
-### Single stage (you control the rest)
-
-| Need | Cursor command | Rule / prompt |
-|------|----------------|---------------|
-| Structure a ticket | `/intake AZE-123` | `workflow-intake` |
-| Explore codebase | `/research` | `workflow-research` |
-| Write plan | `/plan` | `workflow-plan` |
-| Write code | `/implement` | `workflow-implement` |
-| Manual QA + build | `/test` | `workflow-test` |
-| Review diff | `/review` | `workflow-review` |
-| Commit + PR | `/ship` | `workflow-ship` |
-
-Activate a Cursor rule by typing `/plan`, `/ship`, etc., or attach `@.cursor/rules/workflow-plan.mdc`.
+Executes intake → research → plan → GATE 1 → implement → manual QA / verification (confirming zero behavioral changes).
 
 ---
 
-## Size-based routing
+## Stage Quick Reference
+
+| Stage | Command | Purpose |
+|-------|---------|---------|
+| **Intake** | `/intake` | Structure ticket details, AC, size, and cross-team impact |
+| **Research** | `/research` | Map relevant codebase files with `file:line` citations |
+| **Plan** | `/plan` | Generate file-level implementation plan + quality analysis |
+| **Implement** | `/implement` | Create branch & execute code changes (uncommitted) |
+| **Test** | `/test` | Run test suite, build verification, and manual QA checks |
+| **Review** | `/review` | Perform structured diff review (GO / NO-GO verdict) |
+| **Ship** | `/ship` | Execute final QA, commit, push branch, and open PR |
+| **Debug** | `/debug` | Evidence-based root-cause analysis for bug reports |
+| **Refactor** | `/refactor` | Structural refactoring while preserving existing behavior |
+
+---
+
+## Size-Based Routing
 
 | Size | Typical stages | Gates |
 |------|----------------|-------|
-| **trivial** | intake → implement → ship | GATE 3 if proctoring |
-| **small** | intake → research → plan → implement → test → ship | GATE 1, 2, 3 if proctoring |
-| **medium** | All 7 stages | GATE 1, 2, 3 if proctoring |
-| **large** | All 7; plan splits PR if >500 LOC | GATE 1, 2, 3 if proctoring |
+| **trivial** | intake → implement → ship | GATE 3 if security paths touched |
+| **small** | intake → research → plan → implement → test → ship | GATE 1, GATE 2, GATE 3 if security paths touched |
+| **medium** | All 7 stages | GATE 1, GATE 2, GATE 3 if security paths touched |
+| **large** | All 7 stages; plan splits PR if >500 LOC | GATE 1, GATE 2, GATE 3 if security paths touched |
 
 ---
 
-## GATE 3 — Proctoring / security
+## GATE 3 — Security Review (Optional)
 
-**Mandatory** when the plan or diff touches:
+Triggered automatically when the plan or diff touches sensitive paths defined under **Security gate (GATE 3)** in `reference.md`:
 
-```text
-src/context/ProctoringContext*
-src/context/WebRTCProctoringContext*
-src/services/test-session-security/**
-src/components/test-session-security/**
-docs/test-session-security-and-proctoring-integration.md
-```
-
-**Before approving GATE 3**, read:
-
-[docs/test-session-security-and-proctoring-integration.md](docs/test-session-security-and-proctoring-integration.md)
-
-Do not approve proctoring changes unless the ticket explicitly requires them.
+- Evaluates security impact against required security documentation specified in `reference.md`.
+- Requires explicit user approval (`approve`, `request changes`, or `escalate`).
+- Skipped automatically if no sensitive paths are touched or GATE 3 is not configured in `reference.md`.
 
 ---
 
-## Before every PR (`/ship`)
+## Pre-PR Verification (`/ship`)
 
-### Automated (agent runs)
+Before opening a PR, the agent executes the QA commands specified in `reference.md`:
 
 ```bash
-npm run lint
-npm run build
+# Executed based on reference.md configuration:
+npm run lint       # Lint command
+npm run build      # Build command
+npm test           # Test command (if configured)
 ```
 
-Tests: `N/A — E2E not configured` (manual browser QA required).
-
-### Manual QA (you verify in browser)
-
-Run sections that match your change:
-
-| Area | Check |
-|------|-------|
-| **Auth** | Google/Apple/FB login, session persist, logout |
-| **Assessment** | Start test → consent → timer → submit → results |
-| **Proctoring** | Fullscreen, tab-switch strike, terminate flow |
-| **Audio** | Mic permission, RecordRTC record/playback |
-| **FCM** | Notification permission, service worker |
-| **Payments** | Success/failure redirect paths |
-
-At **GATE 2**, review the diff yourself:
-
-```bash
-git diff origin/main
-```
-
-For **medium/large** changes, run `/review` in a **new Cursor chat** (fresh context, less bias).
+Manual QA checks are performed against the **Manual QA domains** table defined in `reference.md`.
 
 ---
 
-## Copilot: manual sequence
+## Best Practices
 
-Copilot does **not** auto-chain. In one chat session, run in order:
-
-```text
-/intake     AZE-123
-/research
-/plan
-            ── GATE 1: approve ──
-/implement
-            ── GATE 2: continue ──
-            ── GATE 3: if proctoring ──
-/test
-/review
-/ship
-```
+1. **Keep `reference.md` updated** — Ensure paths, commands, and conventions match your project.
+2. **Review plans at GATE 1** — Verify `file:line` citations, quality analysis, and scope before implementation.
+3. **Inspect diffs at GATE 2** — Verify changes on disk before proceeding to testing and shipping.
+4. **Never commit during `/implement`** — Only `/ship` creates git commits.
+5. **Respect Do-not-touch rules** — Sacred files defined in `reference.md` must not be edited without explicit authorization.
 
 ---
 
-## Claude Code: full pipeline
+## Hard Rules
 
-```bash
-/feature AZE-123
-/feature "improve assessment timer on consent screen"
-```
-
-Individual skills: `/intake`, `/research`, `/plan`, `/implement`, `/test`, `/review`, `/ship`, `/debug`, `/refactor`.
+- **Conventions:** Follow repository conventions defined in `reference.md`.
+- **Commits:** Follow Conventional Commits format configured in `reference.md` (e.g. `feat({TICKET-ID}): description`).
+- **Gating:** Never skip GATE 1 or GATE 2 on non-trivial tasks.
+- **Safety:** Never force-push git branches.
 
 ---
 
-## Tips for effective runs
+## Related Files
 
-1. **Start with full ticket context** — Jira via MCP or paste AC; never a bare ticket ID alone.
-2. **Read the plan at GATE 1** — Confirm `file:line` refs, failure-mode table, and `requires_gate3`.
-3. **Inspect the diff at GATE 2** — Don't auto-approve without looking.
-4. **One ticket per session** — Avoid mixing unrelated work.
-5. **Proctoring is sacred** — Reject diffs that touch security files without ticket scope.
-6. **Only `/ship` commits** — If the agent commits early, ask it to reset and follow workflow.
-7. **Use domain docs** when touching specialized areas (see table below).
-
----
-
-## Domain rules (Cursor auto-attaches by file glob)
-
-| Rule | When it applies |
-|------|-----------------|
-| `proctoring-security.mdc` | ProctoringContext, test-session-security |
-| `assessment-flows.mdc` | Adaptive section components (reading, listening, etc.) |
-| `audio-recording.mdc` | Speaking/listening + RecordRTC/WaveSurfer |
-| `fcm-notifications.mdc` | Firebase, notification hooks |
-| `exam-timer-connectivity.mdc` | Exam timer pause/offline/resync |
-
----
-
-## Hard rules (always)
-
-- **JavaScript/JSX only** — no TypeScript
-- **Imports:** `@/` alias → `src/`
-- **API:** all calls through `src/api/`
-- **Toasts:** Sonner only
-- **New forms:** react-hook-form + Yup (not new Formik)
-- **Never modify** `initDragGuard()` in `src/main.jsx`
-- **Never modify** proctoring/security without explicit ticket + GATE 3
-- **Commits:** Conventional Commits — `feat(AZE-123): description`
-
----
-
-## Related docs
-
-| Doc | Purpose |
-|-----|---------|
-| [docs/ai-workflow-setup.md](docs/ai-workflow-setup.md) | MCP and tool setup |
-| [docs/ai-workflow-sync-checklist.md](docs/ai-workflow-sync-checklist.md) | Keep Cursor / Claude / Copilot in sync |
-| [CLAUDE-README.md](CLAUDE-README.md) | Claude Code skills |
-| [COPILOT-README.md](COPILOT-README.md) | Copilot prompt files |
-| [.cursor/rules/workflow.mdc](.cursor/rules/workflow.mdc) | Cursor workflow index |
-| [AGENTS.md](AGENTS.md) | Stack and conventions for all AI tools |
-| [.github/PULL_REQUEST_TEMPLATE.md](.github/PULL_REQUEST_TEMPLATE.md) | PR body template used by `/ship` |
-
----
-
-## Do not
-
-- Commit during `/implement`
-- Skip GATE 1 or GATE 2 on non-trivial work
-- Skip GATE 3 when proctoring paths are touched
-- Use Admin Panel patterns (this is the **Student** portal)
-- Infer acceptance criteria from a ticket key alone
-- Force-push branches
+| File | Purpose |
+|------|---------|
+| [`reference.md`](reference.md) | Central repository configuration reference |
+| [`README.md`](README.md) | Workflows bundle overview & install instructions |
+| [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md) | Standard PR body template used by `/ship` |

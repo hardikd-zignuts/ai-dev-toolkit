@@ -5,29 +5,31 @@ description: Root-cause analysis for bugs with file:line evidence. Use BEFORE pl
 
 # debug
 
-Evidence-based root-cause analysis for **ZA-Assessments-Portal-FE** (Student Portal).
+Evidence-based root-cause analysis for bug reports.
 
-## Common bug sources
+## Project Context
 
-- React Query stale cache / wrong queryKey
-- Redux persist hydration mismatch
-- Auth / LTI session stale after login
-- Axios interceptor errors
-- React Router v6 context
-- Firebase FCM / service worker
-- Proctoring / TestSessionSecurityHost
-- react-hook-form reset timing
-- Sonner / Toaster missing
+Read `reference.md` (project root or workflows install path) for stack details, path aliases, and common component architecture.
+
+## Common bug categories to investigate
+
+- State management / cache hydration mismatch
+- API client interceptors / auth token expiration
+- Routing context & navigation params
+- Form state validation / timing issues
+- Async lifecycle & race conditions
+- Notification / toast service initialization
+- Component prop mismatches & type errors
 
 ## Procedure
 
 1. Deterministic reproduction
-2. 2–3 hypotheses
-3. Cheapest disproof each
-4. Run disproofs
-5. Root cause with file:line
-6. Fix hypothesis
+2. Formulate 2–3 testable hypotheses
+3. Identify cheapest disproof for each
+4. Execute disproofs
+5. Establish root cause with `file:line` evidence
+6. Propose fix hypothesis
 
 ## Output
 
-Reproduction, hypotheses, root cause, fix hypothesis. Next: intake → plan.
+Reproduction steps, hypotheses, root cause with `file:line`, fix hypothesis. Next step: intake → plan.

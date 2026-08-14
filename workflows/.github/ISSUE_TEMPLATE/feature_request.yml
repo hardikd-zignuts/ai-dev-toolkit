@@ -10,8 +10,8 @@ body:
   - type: input
     id: ticket
     attributes:
-      label: Jira ticket (if exists)
-      placeholder: AZE-###
+      label: Issue / Ticket ID (if exists)
+      placeholder: PROJ-###
   - type: textarea
     id: summary
     attributes:
@@ -42,7 +42,7 @@ body:
       label: Cross-team impact
       options:
         - label: Backend API changes required
-        - label: Admin panel affected
-        - label: Client portal affected
-        - label: Evaluator portal affected
-        - label: Proctoring or test-session-security may be touched
+        - label: Shared components or design system affected
+        - label: Auth or security logic touched
+        - label: Database or data schema update needed
+        - label: Third-party service integration

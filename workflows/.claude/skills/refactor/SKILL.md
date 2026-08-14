@@ -5,20 +5,23 @@ description: Behavior-preserving structural changes. One concern per commit when
 
 # refactor
 
-**ZA-Assessments-Portal-FE** — JavaScript/JSX. Safe refactoring only.
+Safe structural refactoring while preserving existing behavior.
+
+## Project Context
+
+Read `reference.md` (project root or workflows install path) for stack specifications, path aliases, and the **Do-not-touch** list.
 
 ## Safe targets
 
-- Extract hooks from large components
-- Move pure functions to src/utils/
-- Consolidate API patterns in src/api/
+- Extract reusable hooks/modules from oversized components/functions
+- Move pure utility functions into shared utilities path from `reference.md`
+- Consolidate repetitive API pattern handlers into API layer from `reference.md`
 
-## Never refactor without explicit instruction
+## Never refactor without explicit ticket instruction
 
-- ProctoringContext, WebRTCProctoringContext
-- src/services/test-session-security/
-- initDragGuard() in main.jsx
+- Files or modules listed in **Do-not-touch** under `reference.md`
+- Security or authentication core logic
 
 ## Procedure
 
-Intake scope → research → plan → implement → manual QA (no behavior change).
+Intake scope → research → plan → implement → manual QA / test verification (confirm zero behavior change).

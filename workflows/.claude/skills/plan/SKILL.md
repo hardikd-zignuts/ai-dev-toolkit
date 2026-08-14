@@ -9,22 +9,21 @@ Write the plan a human will approve. Every change references `file:line` from re
 
 ## Project Context
 
-**ZA-Assessments-Portal-FE** — React 18 + Vite SPA (JavaScript/JSX). `@/` alias. Tailwind v3. API in `src/api/`. React Query v5 + Redux Toolkit.
+Read `reference.md` (project root or workflows install path) for stack specifications, path aliases, and security gate paths (`GATE 3`).
 
-## Proctoring detection
+## Security path detection
 
-Set `requires_gate3: true` when plan touches:
-`ProctoringContext*`, `WebRTCProctoringContext*`, `test-session-security/**`, `docs/test-session-security-and-proctoring-integration.md`
+Set `requires_gate3: true` when the plan touches sensitive paths defined under **Security gate (GATE 3)** in `reference.md`.
 
 ## Procedure
 
-1. Numbered steps with files, deps, verification.
-2. Quality analysis: Security (AuthContext/LTI/proctoring), Performance, Reusability, Readability, Testability (manual QA), Cross-team.
+1. Numbered steps with files, dependencies, and verification.
+2. Quality analysis across 6 dimensions: Security, Performance, Reusability, Readability, Testability, Cross-team impact (per `reference.md`).
 3. Failure-mode table per API/action.
 4. Line estimate; PR split if >500 LOC.
-5. Gating: `N/A unless ticket specifies VITE_APP_* env toggle`
-6. `requires_gate3` + security doc reference
-7. Risk: low | medium | high
+5. Environment gating note if feature toggles apply.
+6. `requires_gate3` + reference to required security document if triggered per `reference.md`.
+7. Risk rating: low | medium | high.
 
 ## Output
 
@@ -35,5 +34,5 @@ End with: `## Stop — orchestrator fires GATE 1 next`
 ## Verification
 
 - ≥3 steps with file:line
-- All 6 quality dimensions
+- All 6 quality dimensions addressed
 - No TBD placeholders

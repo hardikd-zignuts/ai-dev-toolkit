@@ -1,26 +1,28 @@
 ---
-mode: agent
-description: Document manual browser verification; E2E framework deferred. Run npm run build always.
+agent: agent
+description: Document manual verification and execute QA/build commands from reference.md.
 ---
 
-# test (ZA-Assessments-Portal-FE — Student Portal)
+# test
 
-Verify behavior through manual browser QA. **No test runner configured** — do not auto-install Vitest.
+Verify behavior through automated tests (if configured) and manual verification.
 
-## Future: E2E (Playwright/Cypress) — not yet configured
+## Project Context
+
+Read `reference.md` (project root or workflows install path) for QA commands (test runner, build script) and manual QA domain checklist.
 
 ## Procedure
 
-1. Check `package.json` for `test` script. If absent, skip automated tests.
-2. Map each AC to browser steps (base path `/student/`).
-3. Bugfixes: use `/debug` reproduction evidence; re-run steps manually.
-4. Always run `npm run build`.
-5. Domain checks when applicable: auth, assessment, proctoring, audio, FCM, payments.
+1. Check `reference.md` under **QA commands** for test command; run if configured (output `N/A` if none).
+2. Map each AC to manual verification steps (using app base path from `reference.md`).
+3. For bugfixes: re-run reproduction steps from `/debug`.
+4. Always execute the build command specified in `reference.md` (e.g. `npm run build`).
+5. Perform domain checks based on **Manual QA domains** table in `reference.md`.
 
 ## Output
 
 ```
-Test runner: none | <runner if configured>
+Test runner: none | <test command result>
 Build: pass/fail
 Manual verification: AC1 → pass/fail, ...
 all_green: true|false

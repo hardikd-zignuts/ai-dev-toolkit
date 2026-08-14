@@ -1,15 +1,17 @@
 ---
-mode: agent
-description: Master orchestrator for end-to-end feature development. Runs intake → research → plan → [GATE 1] → implement → [GATE 2] → [GATE 3 if proctoring] → test → review → ship.
+agent: agent
+description: Master orchestrator for end-to-end feature development. Runs intake → research → plan → [GATE 1] → implement → [GATE 2] → [GATE 3 if security paths] → test → review → ship.
 ---
 
-# /feature — Master Orchestrator (AZE Student Assessment Portal)
+# /feature — Master Orchestrator
 
-You are the orchestrator for **ZA-Assessments-Portal-FE** (Student Portal). Drive a feature from task description to reviewed PR by running sub-prompts in `.github/prompts/` in order, pausing at human gates.
+You are the master orchestrator for end-to-end feature development. Drive a feature from task description to reviewed PR by running sub-prompts in `.github/prompts/` in order, pausing at human gates.
+
+Read `reference.md` (project root or workflows install path) for project identity, tracker key format, security gate trigger paths (`GATE 3`), and required security reading.
 
 ## Argument
 
-- `$task_description` — required. AZE ticket ID (e.g. `AZE-123`), URL, or free-form description.
+- `$task_description` — required. Ticket ID (e.g. `PROJ-123` or `#123`), URL, or free-form description.
 
 ## Sub-prompts
 
@@ -19,28 +21,22 @@ You are the orchestrator for **ZA-Assessments-Portal-FE** (Student Portal). Driv
 | 2     | `research`  | Map codebase, detect conventions |
 | 3     | `plan`      | Write implementation plan |
 | 4     | `implement` | Execute plan on branch |
-| 5     | `test`      | Manual QA + build check (E2E TBD) |
+| 5     | `test`      | Manual QA + build verification |
 | 6     | `review`    | Structured diff review |
 | 7     | `ship`      | Self-review, QA, manual QA, open PR |
 
-## Proctoring paths (GATE 3 trigger)
+## Security paths (GATE 3 trigger)
 
-```
-src/context/ProctoringContext*
-src/context/WebRTCProctoringContext*
-src/services/test-session-security/**
-src/components/test-session-security/**
-docs/test-session-security-and-proctoring-integration.md
-```
+Read trigger paths from `reference.md` under **Security gate (GATE 3)**.
 
 ## Size-based routing
 
 | Size    | Stages run                                               | Gates         |
 |---------|----------------------------------------------------------|---------------|
-| trivial | intake → implement → ship                                | GATE 3 if proctoring |
-| small   | intake → research → plan → implement → test → ship       | GATE 1, GATE 2, GATE 3 if proctoring |
-| medium  | All 7 stages                                             | GATE 1, GATE 2, GATE 3 if proctoring |
-| large   | All 7 stages; plan splits PR if >500 LOC                 | GATE 1, GATE 2, GATE 3 if proctoring |
+| trivial | intake → implement → ship                                | GATE 3 if security paths touched |
+| small   | intake → research → plan → implement → test → ship       | GATE 1, GATE 2, GATE 3 if security paths touched |
+| medium  | All 7 stages                                             | GATE 1, GATE 2, GATE 3 if security paths touched |
+| large   | All 7 stages; plan splits PR if >500 LOC                 | GATE 1, GATE 2, GATE 3 if security paths touched |
 
 ## Procedure
 
@@ -78,18 +74,20 @@ Implementation complete on branch {branch}. Continue?
   [Request changes]       Implementation needs revision.
 ```
 
-### GATE 3 — Proctoring / Security Review (REQUIRED when proctoring paths touched)
+### GATE 3 — Security Review (REQUIRED when security paths touched)
 
-Fire after GATE 2 when `requires_gate3: true` or diff touches proctoring paths:
+Fire after GATE 2 when `requires_gate3: true` or diff touches security trigger paths defined in `reference.md`:
 
 ```
-GATE 3 — Proctoring / Security Review
-Required: confirm docs/test-session-security-and-proctoring-integration.md was consulted.
+GATE 3 — Security Review
+Required: confirm security guidelines doc from reference.md was consulted.
 
   [Approve]           Security approach looks correct
   [Request changes]   Describe security concerns
   [Escalate]          Escalate to human security owner
 ```
+
+Skip GATE 3 when security paths are not in scope or GATE 3 is disabled in `reference.md`.
 
 ### Stage 5 — Test
 Run `test`. If failures, route back to `implement`.
@@ -115,7 +113,7 @@ Feature complete.
 ## Hard rules
 
 - Never skip GATE 1 or GATE 2 on non-trivial runs.
-- Never skip GATE 3 when proctoring/security paths are touched.
+- Never skip GATE 3 when security paths defined in `reference.md` are touched.
 - Fire gates in the SAME turn as the preceding stage output.
 - Run prompts sequentially.
 - Never commit during implement — only ship commits.

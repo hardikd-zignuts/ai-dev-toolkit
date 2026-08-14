@@ -9,7 +9,7 @@ Turn a fuzzy task description into a structured intake the rest of the workflow 
 
 ## Project Context
 
-**ZA-Assessments-Portal-FE** — AZE Student Assessment Portal. React 18 + Vite SPA, base path `/student/`. Ticket keys: `AZE-###` (Jira).
+Read `reference.md` (project root or workflows install path) for project identity, ticket source tracker format, primary fetcher, and cross-team impact list.
 
 ## Input
 
@@ -18,9 +18,10 @@ Turn a fuzzy task description into a structured intake the rest of the workflow 
 ## Procedure
 
 1. **Resolve the source.**
-   - Ticket key (`AZE-###`): **Primary** — Atlassian MCP (`plugin-atlassian-atlassian`) to fetch title, description, AC.
-   - **Fallback** — if MCP unavailable, ask user once to paste ticket content. STOP if still empty.
-   - URL: Atlassian MCP or `gh issue view` / `gh pr view`.
+   - Ticket key (format per `reference.md` e.g., `PROJ-###` or `#123`):
+     - **Primary** — Use tracker fetcher specified in `reference.md` (e.g. Atlassian MCP `plugin-atlassian-atlassian`, `gh issue view`, `linear`).
+     - **Fallback** — if fetcher unavailable, ask user once to paste ticket content. STOP if still empty.
+   - URL: Primary tracker fetcher or web/CLI tool.
    - Free-form: user message is the source.
 
 2. **Extract acceptance criteria.** Explicit AC or infer 3–5 testable criteria.
@@ -31,16 +32,16 @@ Turn a fuzzy task description into a structured intake the rest of the workflow 
 
 5. **Validate success criteria** — distinct from AC list.
 
-6. **Cross-team impact:** ZA-AI-Assessments-FE (admin), ZA-Client-Portal-FE, ZA-Evaluation-Portal-FE, backend APIs, or `Self-contained`.
+6. **Cross-team impact:** Check related services/repos listed in `reference.md` under Cross-team impact, or output `Self-contained`.
 
 ## Output
 
 ```
 Type, Size, Summary, Acceptance criteria, Success criteria, Cross-team impact
-Ticket source: <Atlassian MCP | user paste | free-form>
+Ticket source: <Primary fetcher | user paste | free-form>
 ```
 
 ## Failure modes
 
-- MCP unavailable: one paste request, then STOP if empty.
+- Fetcher / CLI unavailable: one paste request, then STOP if empty.
 - Success criteria ambiguous: ask user before proceeding.

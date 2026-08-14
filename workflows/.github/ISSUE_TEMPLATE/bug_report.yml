@@ -1,5 +1,5 @@
 name: Bug Report
-description: Report a bug in the Student Assessment Portal
+description: Report a bug in the application
 title: "[Bug]: "
 labels:
   - bug
@@ -10,13 +10,13 @@ body:
   - type: input
     id: ticket
     attributes:
-      label: Jira ticket (if exists)
-      placeholder: AZE-###
+      label: Issue / Ticket ID (if exists)
+      placeholder: PROJ-###
   - type: textarea
     id: reproduction
     attributes:
       label: Steps to reproduce
-      description: Include URL under /student/, actions, expected vs actual
+      description: Include relevant URL, steps to reproduce, expected vs actual behavior
     validations:
       required: true
   - type: textarea
@@ -29,12 +29,12 @@ body:
       label: Affected area
       options:
         - Auth / login
-        - Assessment-taking
-        - Proctoring / security
-        - Audio / recording
-        - Exam timer / connectivity
-        - Notifications (FCM)
-        - Payments
-        - Dashboard / other
+        - Core UI / navigation
+        - Data fetching / API integration
+        - Notifications / alerts
+        - User settings / profile
+        - Performance / rendering
+        - Security / permissions
+        - Other / general
     validations:
       required: true
