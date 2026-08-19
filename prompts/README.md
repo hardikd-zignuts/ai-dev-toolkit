@@ -1,27 +1,26 @@
-# Universal Repo Setup Prompts
+# App feature setup prompts
 
-A curated collection of framework-agnostic AI setup prompts for quick repository initialization, core frontend architecture, and boilerplate scaffolding across **React**, **Vite**, **Next.js**, **Vue 3**, **Nuxt**, **SvelteKit**, and **TypeScript** web applications.
+Copy-paste prompts for an AI coding assistant. Each prompt **inspects this repository first**, **asks every unanswered question in one message**, then implements only after you approve a plan. Generated code should follow the stack that is already in the project (framework, router, styling, env vars, file extensions).
 
-Every prompt includes automatic framework detection instructions so AI coding assistants (**Cursor**, **Claude Code**, **Antigravity**, **GitHub Copilot**, **Windsurf**) automatically generate code using your project's exact framework, router, styling engine, and file conventions (`.tsx`, `.ts`, `.vue`, `.svelte`).
-
----
+Works with assistants in Cursor, Claude Code, Antigravity, GitHub Copilot, Windsurf, and similar tools.
 
 ## Catalog
 
-| Setup Prompt | Category | Framework Support | File |
-| ------------ | -------- | ----------------- | ---- |
-| **Auth Guards Setup** | Security / Routing | React, Next.js, Vue, Nuxt, SvelteKit | [`auth-guards-setup.md`](auth-guards-setup.md) |
-| **Layouts Setup** | Architecture | React, Next.js, Vue, Nuxt, SvelteKit | [`layouts-setup.md`](layouts-setup.md) |
-| **TanStack Query Setup** | Data Fetching | React Query, Vue Query, Svelte Query, Next.js, Nuxt | [`tanstack-query-setup.md`](tanstack-query-setup.md) |
-| **Firebase Setup** | Backend / BaaS | React, Next.js, Vue, Nuxt, SvelteKit | [`firebase-setup.md`](firebase-setup.md) |
-| **API Client Setup** | Networking | Axios / Fetch / Ofetch (React, Next.js, Vue, Nuxt, Svelte) | [`api-client-setup.md`](api-client-setup.md) |
-| **State Store Setup** | State Management | Zustand, Pinia, Redux Toolkit, Svelte Stores | [`state-store-setup.md`](state-store-setup.md) |
-| **Theme Provider Setup** | UI System | Light/Dark mode for React, Next.js, Vue, Nuxt, Svelte | [`theme-provider-setup.md`](theme-provider-setup.md) |
+| Prompt | What it sets up | File |
+| ------ | ---------------- | ---- |
+| Login and protected pages | Auth state and route guards | [`auth-guards-setup.md`](auth-guards-setup.md) |
+| Page layouts | App shell, auth layout, error fallback | [`layouts-setup.md`](layouts-setup.md) |
+| Data fetching | Shared cache/load/refetch (TanStack Query or the library you already use) | [`tanstack-query-setup.md`](tanstack-query-setup.md) |
+| Firebase | Auth and data using this project's env style | [`firebase-setup.md`](firebase-setup.md) |
+| API client | Shared HTTP client and error handling | [`api-client-setup.md`](api-client-setup.md) |
+| App state | Client store (Zustand, Pinia, Redux, Svelte stores, or what you already use) | [`state-store-setup.md`](state-store-setup.md) |
+| Light and dark theme | Theme toggle that matches your CSS/UI kit | [`theme-provider-setup.md`](theme-provider-setup.md) |
 
----
+## How to use
 
-## How to Use
+1. From your project: `npx agentkitx` → **Copy a prompt to add app features**, or open a file in this folder.
+2. Paste the prompt into your AI IDE.
+3. The assistant should: inspect the repo → list what it detected → ask remaining questions → show a plan → wait for your approval → then write files.
+4. If it starts coding before those steps, stop it and point it back at the process in the prompt.
 
-1. Copy the content of any `.md` setup prompt file into your AI IDE chat or prompt window.
-2. The AI assistant will inspect your repository to auto-detect your framework (React/Next.js/Vue/Nuxt/SvelteKit), router, and styling engine.
-3. The AI assistant generates fully typed, framework-native setup files tailored to your project.
+Do not skip the question step. Silent defaults are how the wrong library gets installed.

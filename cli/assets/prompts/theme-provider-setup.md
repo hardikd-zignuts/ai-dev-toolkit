@@ -1,48 +1,71 @@
 ---
-title: Theme Provider Setup
+title: Light and dark theme
 category: UI System
-description: Universal setup prompt for Light/Dark mode Theme Provider, OS color scheme preference detection, CSS variables, and LocalStorage persistence across React, Next.js, Vue, Nuxt, and Svelte.
-tags: [theme, dark-mode, theme-provider, css-variables, tailwind, react, nextjs, vue, nuxt, svelte, typescript]
+description: Inspect this repo, ask every theme question that is not already proven, then add light/dark mode that matches the current styling system.
+tags: [theme, dark-mode, css-variables, tailwind, typescript]
 ---
 
-# Universal Theme Provider & Dark Mode Setup Prompt
+Set up light and dark theme in this repository.
 
-Use this prompt to set up a Dark/Light Theme Provider in any frontend repository (React, Next.js, Vite, Vue 3, Nuxt, SvelteKit), supporting OS color scheme preference detection (`prefers-color-scheme`), manual theme toggling, LocalStorage persistence, and CSS class/variable sync.
+## Process (do not skip)
 
----
+1. Inspect the repo first. Do not write or edit application code until the user answers your questions and approves a plan.
+2. Auto-detect the current styling system from evidence. Do not assume Tailwind, `next-themes`, or a `.dark` class.
+3. Report what you found, with the files that prove it.
+4. Ask every question below that you cannot prove from the repo. Ask them in **one** message. Do not silently pick defaults.
+5. After answers, present a short plan (library vs custom, class vs data attribute, files, FOUC strategy). Wait for approval.
+6. Implement only what was approved, using this project's existing tokens, UI kit, and file extensions.
 
-## Copy & Paste Prompt
+If this is not a frontend app, say so and ask whether to continue.
 
-```text
-Set up a robust Theme Provider & Dark Mode system in this repository.
+## Inspect (adapt automatically)
 
-### Framework Auto-Detection & Adaptation
-1. Inspect this project's dependencies and structure to auto-detect:
-   - Framework & Component Type: React (`ThemeProvider.tsx`), Next.js (`next-themes` / Context), Vue 3 (`useDark` / `ThemeProvider.vue`), Nuxt (`@nuxtjs/color-mode`), or Svelte (`ThemeProvider.svelte`).
-   - CSS Strategy: Tailwind CSS (`dark:` variant class mode), CSS custom properties (`var(--bg-primary)`), or UI component library tokens.
-2. Adapt all code generation and file extensions (.ts, .tsx, .vue, .svelte) to match this project's stack.
+Look at package.json, Tailwind/CSS config, root layout/HTML, and existing theme providers.
 
-### Setup Requirements
+Detect and report:
 
-1. Theme Provider / Store:
-   - Support three theme options: `'light' | 'dark' | 'system'`.
-   - Read saved theme preference from `localStorage` on initial mount.
-   - Listen for OS media query changes (`window.matchMedia('(prefers-color-scheme: dark)')`) when set to `'system'`.
+- Language and file extensions
+- Framework: React, Next.js, Vue, Nuxt, SvelteKit, or other
+- Styling: Tailwind (`darkMode` setting), CSS variables, CSS Modules, Sass, styled-components, or a UI kit (shadcn, MUI, Chakra, Vuetify, Nuxt UI, PrimeVue, and so on)
+- Theme helpers already installed: `next-themes`, `@nuxtjs/color-mode`, `useDark` (VueUse), MUI `ThemeProvider`, or other
+- How the document root is marked today (`class="dark"`, `data-theme`, `data-mode`)
+- Package manager
 
-2. DOM Class & Attribute Synchronization:
-   - Synchronize document root element (`<html>` or `<body>`) by toggling `.dark` class or `data-theme="dark"` attribute.
-   - Prevent flash of unstyled theme (FOUC) during initial page load using an inline script or SSR theme head script.
+Reuse the UI kit's theme API when it exists (for example MUI palette mode, shadcn + `next-themes`). Do not add a second theme system.
 
-3. Custom Hook / Composable / Store:
-   - Export custom hook (`useTheme()`) or composables returning `{ theme, resolvedTheme, setTheme, toggleTheme }`.
+## Questions (ask all that are still unknown)
 
-4. Theme Toggle UI Component:
-   - Render accessible theme toggle switcher control (Dropdown or Sun/Moon Icon Button).
-   - Ensure proper `aria-label` for screen reader accessibility.
+Ask all of these unless the repo already answers them:
 
-### Expected Output
-- Framework-native Theme Provider component / store file
-- Framework-native `useTheme` hook / composable file
-- Accessible Theme Toggle UI component (`ThemeToggle.tsx` / `.vue` / `.svelte`)
-- Barrel export file (`index.ts`)
-```
+1. Keep the existing theme solution, extend it, or add a new one? If new, custom provider or a library that fits this framework (`next-themes`, `@nuxtjs/color-mode`, VueUse `useDark`, or other)?
+2. Modes: `light` and `dark` only, or also `system` (follow OS)?
+3. How should the DOM be marked: `.dark` class on `<html>`, `data-theme="dark"`, both, or the UI kit's required attribute?
+4. Tailwind (if used): `darkMode: 'class'` or `'media'`? Changing this affects the whole app — confirm before changing.
+5. Persist choice: localStorage, cookie (better for SSR), or none? What storage key?
+6. Prevent flash of the wrong theme on first load (FOUC): yes or no? If SSR, cookie or inline script in the document head?
+7. Toggle UI: icon button, dropdown (light/dark/system), or no UI yet (API only)?
+8. Where should the toggle live: header, settings page, both, or you will place it later?
+9. Color tokens: reuse existing CSS variables / Tailwind theme colors, or define a new token list? If new, which tokens (background, foreground, border, accent, and so on)?
+10. Should `prefers-reduced-motion` or contrast settings be respected in the toggle animation?
+11. Where should new files live?
+12. May we add a package if a helper library is chosen and not installed?
+13. Should we add tests? If yes, which runner is already in the project?
+
+Do not implement until every applicable question is answered and the plan is approved.
+
+## After approval, implement
+
+Match the detected styling system:
+
+- Theme state: `theme`, `resolvedTheme`, `setTheme`, `toggleTheme` as applicable
+- Document root sync as agreed
+- Persistence as agreed
+- FOUC prevention if requested
+- Accessible toggle if requested (`aria-label`, keyboard usable)
+- No new color palette unless requested
+
+## Constraints
+
+- Do not restyle the whole app or replace brand colors unless asked
+- Do not change `darkMode` in Tailwind without explicit approval
+- Do not add both `next-themes` and a custom class toggler

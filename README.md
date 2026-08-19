@@ -144,19 +144,19 @@ Present a plan first; apply edits only after I approve.
 
 ## Prompts
 
-Universal, battle-tested quick setup prompts for repository boilerplate, core frontend architecture, and infrastructure integrations across **React**, **Vite**, **Next.js**, **Vue 3**, **Nuxt**, **SvelteKit**, and **TypeScript** projects.
+Paste-in prompts that inspect the current repo, ask remaining questions, then generate setup code that matches this project's stack.
 
 Catalog guide: [`prompts/README.md`](prompts/README.md)
 
-| Setup Prompt | Category | Framework Support | File |
-| ------------ | -------- | ----------------- | ---- |
-| [Auth Guards Setup](prompts/auth-guards-setup.md) | Security / Routing | React, Next.js, Vue, Nuxt, SvelteKit | [auth-guards-setup.md](prompts/auth-guards-setup.md) |
-| [Layouts Setup](prompts/layouts-setup.md) | Architecture | React, Next.js, Vue, Nuxt, SvelteKit | [layouts-setup.md](prompts/layouts-setup.md) |
-| [TanStack Query Setup](prompts/tanstack-query-setup.md) | Data Fetching | React Query, Vue Query, Svelte Query, Next.js, Nuxt | [tanstack-query-setup.md](prompts/tanstack-query-setup.md) |
-| [Firebase Setup](prompts/firebase-setup.md) | Backend / BaaS | React, Next.js, Vue, Nuxt, SvelteKit | [firebase-setup.md](prompts/firebase-setup.md) |
-| [API Client Setup](prompts/api-client-setup.md) | Networking | Axios / Fetch / Ofetch (React, Next.js, Vue, Nuxt, Svelte) | [api-client-setup.md](prompts/api-client-setup.md) |
-| [State Store Setup](prompts/state-store-setup.md) | State Management | Zustand, Pinia, Redux Toolkit, Svelte Stores | [state-store-setup.md](prompts/state-store-setup.md) |
-| [Theme Provider Setup](prompts/theme-provider-setup.md) | UI System | Light/Dark mode for React, Next.js, Vue, Nuxt, Svelte | [theme-provider-setup.md](prompts/theme-provider-setup.md) |
+| Prompt | What it sets up | File |
+| ------ | ---------------- | ---- |
+| [Login and protected pages](prompts/auth-guards-setup.md) | Auth state and route guards | [auth-guards-setup.md](prompts/auth-guards-setup.md) |
+| [Page layouts](prompts/layouts-setup.md) | App shell, auth layout, error fallback | [layouts-setup.md](prompts/layouts-setup.md) |
+| [Data fetching](prompts/tanstack-query-setup.md) | Shared cache/load/refetch | [tanstack-query-setup.md](prompts/tanstack-query-setup.md) |
+| [Firebase](prompts/firebase-setup.md) | Auth and data using this project's env style | [firebase-setup.md](prompts/firebase-setup.md) |
+| [API client](prompts/api-client-setup.md) | Shared HTTP client and error handling | [api-client-setup.md](prompts/api-client-setup.md) |
+| [App state](prompts/state-store-setup.md) | Client store matching libraries already in the repo | [state-store-setup.md](prompts/state-store-setup.md) |
+| [Light and dark theme](prompts/theme-provider-setup.md) | Theme toggle that matches your CSS/UI kit | [theme-provider-setup.md](prompts/theme-provider-setup.md) |
 
 ## Husky / Git hooks
 
