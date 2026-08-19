@@ -148,9 +148,23 @@ Paste-in prompts that inspect the current repo, ask remaining questions, then ge
 
 Catalog guide: [`prompts/README.md`](prompts/README.md)
 
+### Authentication & Security
+
 | Prompt | What it sets up | File |
 | ------ | ---------------- | ---- |
-| [Login and protected pages](prompts/auth-guards-setup.md) | Auth state and route guards | [auth-guards-setup.md](prompts/auth-guards-setup.md) |
+| [Auth.js](prompts/authentication-security/authentication/authjs-setup.md) | Auth.js (NextAuth) session, adapter, and providers | [authjs-setup.md](prompts/authentication-security/authentication/authjs-setup.md) |
+| [Better Auth](prompts/authentication-security/authentication/better-auth-setup.md) | Better Auth server, database plugin, and client helpers | [better-auth-setup.md](prompts/authentication-security/authentication/better-auth-setup.md) |
+| [Firebase Authentication](prompts/authentication-security/authentication/firebase-auth-setup.md) | Firebase Auth only | [firebase-auth-setup.md](prompts/authentication-security/authentication/firebase-auth-setup.md) |
+| [Supabase Auth](prompts/authentication-security/authentication/supabase-auth-setup.md) | Supabase sign-in with this project's SSR or client pattern | [supabase-auth-setup.md](prompts/authentication-security/authentication/supabase-auth-setup.md) |
+| [Clerk](prompts/authentication-security/authentication/clerk-setup.md) | Clerk provider, components, and optional middleware | [clerk-setup.md](prompts/authentication-security/authentication/clerk-setup.md) |
+| [Google / GitHub / Microsoft / Apple / Discord OAuth](prompts/authentication-security/oauth/google-setup.md) | Attach a social provider to the existing auth layer | [oauth/](prompts/authentication-security/oauth/) |
+| [RBAC](prompts/authentication-security/authorization/rbac-setup.md) | Roles and permissions | [rbac-setup.md](prompts/authentication-security/authorization/rbac-setup.md) |
+| [Protected Routes](prompts/auth-guards-setup.md) | Auth state and route guards | [auth-guards-setup.md](prompts/auth-guards-setup.md) |
+
+### App features
+
+| Prompt | What it sets up | File |
+| ------ | ---------------- | ---- |
 | [Page layouts](prompts/layouts-setup.md) | App shell, auth layout, error fallback | [layouts-setup.md](prompts/layouts-setup.md) |
 | [Data fetching](prompts/tanstack-query-setup.md) | Shared cache/load/refetch | [tanstack-query-setup.md](prompts/tanstack-query-setup.md) |
 | [Firebase](prompts/firebase-setup.md) | Auth and data using this project's env style | [firebase-setup.md](prompts/firebase-setup.md) |

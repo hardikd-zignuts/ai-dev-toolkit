@@ -4,11 +4,43 @@ Copy-paste prompts for an AI coding assistant. Each prompt **inspects this repos
 
 Works with assistants in Cursor, Claude Code, Antigravity, GitHub Copilot, Windsurf, and similar tools.
 
-## Catalog
+From the CLI: `npx agentkitx` → **Copy a prompt to add app features**, then section → group → prompt. Use **← Back** to go up a level.
+
+## Authentication & Security
+
+### Authentication
 
 | Prompt | What it sets up | File |
 | ------ | ---------------- | ---- |
-| Login and protected pages | Auth state and route guards | [`auth-guards-setup.md`](auth-guards-setup.md) |
+| Auth.js | Auth.js (NextAuth) session, adapter, and providers | [`authentication-security/authentication/authjs-setup.md`](authentication-security/authentication/authjs-setup.md) |
+| Better Auth | Better Auth server, database plugin, and client helpers | [`authentication-security/authentication/better-auth-setup.md`](authentication-security/authentication/better-auth-setup.md) |
+| Firebase Authentication | Firebase Auth only (no Firestore/Storage unless you ask) | [`authentication-security/authentication/firebase-auth-setup.md`](authentication-security/authentication/firebase-auth-setup.md) |
+| Supabase Auth | Supabase sign-in with this project's SSR or client pattern | [`authentication-security/authentication/supabase-auth-setup.md`](authentication-security/authentication/supabase-auth-setup.md) |
+| Clerk | Clerk provider, components, and optional middleware | [`authentication-security/authentication/clerk-setup.md`](authentication-security/authentication/clerk-setup.md) |
+
+### OAuth Providers
+
+These attach to an existing auth layer. If none exists, the prompt asks which vendor to set up first.
+
+| Prompt | What it sets up | File |
+| ------ | ---------------- | ---- |
+| Google | Google sign-in | [`authentication-security/oauth/google-setup.md`](authentication-security/oauth/google-setup.md) |
+| GitHub | GitHub sign-in | [`authentication-security/oauth/github-setup.md`](authentication-security/oauth/github-setup.md) |
+| Microsoft | Microsoft / Entra ID sign-in | [`authentication-security/oauth/microsoft-setup.md`](authentication-security/oauth/microsoft-setup.md) |
+| Apple | Sign in with Apple | [`authentication-security/oauth/apple-setup.md`](authentication-security/oauth/apple-setup.md) |
+| Discord | Discord sign-in | [`authentication-security/oauth/discord-setup.md`](authentication-security/oauth/discord-setup.md) |
+
+### Authorization
+
+| Prompt | What it sets up | File |
+| ------ | ---------------- | ---- |
+| RBAC | Roles and permissions on the existing auth layer | [`authentication-security/authorization/rbac-setup.md`](authentication-security/authorization/rbac-setup.md) |
+| Protected Routes | Auth state and route guards | [`auth-guards-setup.md`](auth-guards-setup.md) |
+
+## App features
+
+| Prompt | What it sets up | File |
+| ------ | ---------------- | ---- |
 | Page layouts | App shell, auth layout, error fallback | [`layouts-setup.md`](layouts-setup.md) |
 | Data fetching | Shared cache/load/refetch (TanStack Query or the library you already use) | [`tanstack-query-setup.md`](tanstack-query-setup.md) |
 | Firebase | Auth and data using this project's env style | [`firebase-setup.md`](firebase-setup.md) |

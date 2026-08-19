@@ -1,11 +1,11 @@
 ---
-title: Login and protected pages
-category: Security / Routing
+title: Protected Routes
+category: Authentication & Security / Authorization
 description: Inspect this repo, ask every auth and routing question that is not already proven, then add login protection that matches the current stack.
 tags: [auth, guard, routing, middleware, typescript, security]
 ---
 
-Set up login protection and guarded routes in this repository.
+Set up protected and guest-only routes in this repository.
 
 ## Process (do not skip)
 

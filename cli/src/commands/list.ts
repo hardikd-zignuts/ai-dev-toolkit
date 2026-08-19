@@ -1,11 +1,26 @@
 import { listAvailableSkills } from "../lib/skills-catalog.js";
-import { PROMPTS_CATALOG } from "../constants/prompts-catalog.js";
+import { PROMPTS_TREE } from "../constants/prompts-catalog.js";
 import { WORKFLOWS_CATALOG } from "../constants/workflows-catalog.js";
 import chalk from "chalk";
 import { heading } from "../lib/ui.js";
+import type { PromptTreeNode } from "../types.js";
 
 export interface ListOptions {
   type?: "all" | "skills" | "prompts" | "workflows" | "templates";
+}
+
+function printPromptTree(nodes: PromptTreeNode[], indent = 2): void {
+  const pad = " ".repeat(indent);
+
+  for (const node of nodes) {
+    if (node.type === "group") {
+      console.log(`${pad}${chalk.cyan(node.title)}`);
+      printPromptTree(node.children, indent + 2);
+      continue;
+    }
+
+    console.log(`${pad}${chalk.green(node.title.padEnd(28))} ${node.summary}`);
+  }
 }
 
 export function runList(options: ListOptions = {}): void {
@@ -30,9 +45,7 @@ export function runList(options: ListOptions = {}): void {
 
   if (type === "all" || type === "prompts") {
     heading("App feature prompts");
-    for (const p of PROMPTS_CATALOG) {
-      console.log(`  ${chalk.green(p.title.padEnd(28))} ${p.summary}`);
-    }
+    printPromptTree(PROMPTS_TREE);
   }
 
   if (type === "all" || type === "templates") {

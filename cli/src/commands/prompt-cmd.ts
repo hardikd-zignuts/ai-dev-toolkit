@@ -1,5 +1,5 @@
 import { confirm } from "@inquirer/prompts";
-import { getPromptContent, PROMPTS_CATALOG } from "../constants/prompts-catalog.js";
+import { findPromptMeta, getPromptContent } from "../constants/prompts-catalog.js";
 import { promptSelectArchitecturePrompt } from "../prompts/select-prompt.js";
 import { copyToClipboard } from "../lib/clipboard.js";
 import { info, printBox, success, warn } from "../lib/ui.js";
@@ -18,7 +18,7 @@ export async function runPromptCmd(options: PromptCmdOptions = {}): Promise<void
     promptId = selected.id;
     title = selected.title;
   } else {
-    const meta = PROMPTS_CATALOG.find((p) => p.id === promptId || p.fileName === promptId);
+    const meta = findPromptMeta(promptId);
     title = meta ? meta.title : promptId;
   }
 

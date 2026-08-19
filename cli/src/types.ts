@@ -23,7 +23,23 @@ export interface SetupPromptMeta {
   frameworks: string;
   fileName: string;
   filePath: string;
+  section?: string;
+  group?: string;
 }
+
+export type PromptTreeGroup = {
+  type: "group";
+  id: string;
+  title: string;
+  summary: string;
+  children: PromptTreeNode[];
+};
+
+export type PromptTreeLeaf = {
+  type: "prompt";
+} & Omit<SetupPromptMeta, "filePath" | "section" | "group">;
+
+export type PromptTreeNode = PromptTreeGroup | PromptTreeLeaf;
 
 export interface WorkflowMeta {
   id: string;

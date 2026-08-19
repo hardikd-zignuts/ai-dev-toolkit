@@ -31,7 +31,8 @@ export async function runInteractiveMenu(): Promise<void> {
       {
         name: "Copy a prompt to add app features",
         value: "prompts",
-        description: "Login, layouts, API, Firebase, state, or theme — paste it into your AI IDE",
+        description:
+          "Auth, OAuth, RBAC, layouts, API, and more — paste it into your AI IDE",
       },
       {
         name: "Browse catalog",

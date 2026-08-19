@@ -64,11 +64,11 @@ program
 program
   .command("prompt")
   .description(
-    "Copy a prompt to add app features (login, layouts, API, theme, and more)",
+    "Copy a prompt to add app features (auth, OAuth, layouts, API, theme, and more)",
   )
   .option(
     "-n, --name <name>",
-    "Prompt ID or file name (e.g. auth-guards, state-store)",
+    "Prompt ID or file name (e.g. authjs, oauth-google, auth-guards)",
   )
   .option("-c, --copy", "Copy prompt to clipboard automatically")
   .action(async (options: { name?: string; copy?: boolean }) => {
