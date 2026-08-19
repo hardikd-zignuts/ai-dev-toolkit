@@ -9,7 +9,7 @@ export interface CopySkillsOptions {
   skillFolders: string[];
   targetDir: string;
   force?: boolean;
-  onConflict?: () => Promise<boolean>;
+  onConflict?: (conflicts: string[]) => Promise<boolean>;
 }
 
 export interface CopySkillsResult {
@@ -29,40 +29,48 @@ export async function copySkills(options: CopySkillsOptions): Promise<CopySkills
 
   const copied: string[] = [];
   const skipped: string[] = [];
-
-  const spinner = ora("Installing skills...").start();
+  const toCopy: string[] = [];
+  const existing: string[] = [];
 
   for (const folder of skillFolders) {
     const source = path.join(sourceDir, folder);
-    const dest = path.join(targetDir, folder);
 
     if (!fs.existsSync(source)) {
-      spinner.warn(`Skill not found: ${folder}`);
+      warn(`Skill not found: ${folder}`);
       skipped.push(folder);
       continue;
     }
 
     if (skillExistsInTarget(targetDir, folder) && !force) {
-      if (onConflict) {
-        const shouldOverwrite = await onConflict();
-        if (!shouldOverwrite) {
-          skipped.push(folder);
-          continue;
-        }
-      } else {
-        skipped.push(folder);
-        continue;
-      }
+      existing.push(folder);
+    } else {
+      toCopy.push(folder);
     }
-
-    await fse.copy(source, dest, { overwrite: true });
-    copied.push(folder);
   }
 
-  if (copied.length > 0) {
-    spinner.succeed(`Installed ${copied.length} skill${copied.length === 1 ? "" : "s"}`);
+  let overwriteExisting = force;
+  if (existing.length > 0 && onConflict) {
+    overwriteExisting = await onConflict(existing);
+  }
+
+  if (overwriteExisting) {
+    toCopy.push(...existing);
   } else {
-    spinner.warn("No skills were installed");
+    skipped.push(...existing);
+  }
+
+  if (toCopy.length > 0) {
+    const spinner = ora("Installing skills...").start();
+    for (const folder of toCopy) {
+      const source = path.join(sourceDir, folder);
+      const dest = path.join(targetDir, folder);
+      await fse.copy(source, dest, { overwrite: true });
+      copied.push(folder);
+    }
+    spinner.stop();
+    success(`Installed ${copied.length} skill${copied.length === 1 ? "" : "s"}`);
+  } else {
+    warn("No skills were installed");
   }
 
   if (skipped.length > 0) {

@@ -1,34 +1,27 @@
-import { select } from "@inquirer/prompts";
-import type { SetupType } from "../types.js";
+import { checkbox } from "@inquirer/prompts";
+import type { InstallablePiece } from "../types.js";
 
-export async function promptSelectSetupType(message = "What would you like to set up?"): Promise<SetupType> {
-  return select<SetupType>({
+export async function promptSelectSetupPieces(
+  message = "What do you want to install?",
+): Promise<InstallablePiece[]> {
+  return checkbox<InstallablePiece>({
     message,
+    required: true,
     choices: [
       {
-        name: "📦 All-in-One Full Kit (Skills + Workflows + Husky)",
-        value: "all",
-        description: "Set up Agent Skills, AI Workflows, and Git Hooks together",
-      },
-      {
-        name: "🛠️ Agent Skills",
+        name: "Skills",
         value: "skills",
-        description: "Install portable SKILL.md and reference.md into your IDE",
+        description: "Portable skill files for your IDE",
       },
       {
-        name: "🔄 AI Workflows",
+        name: "Workflows",
         value: "workflows",
-        description: "Install 7-stage AI development pipeline templates",
+        description: "AI development pipeline templates",
       },
       {
-        name: "🏗️ Architecture Setup Prompts",
-        value: "prompts",
-        description: "Browse and copy universal architecture setup prompts",
-      },
-      {
-        name: "⚓ Git Hooks / Husky",
+        name: "Git hooks",
         value: "husky",
-        description: "Install pre-commit & commit-msg hooks",
+        description: "pre-commit and commit-msg (Husky)",
       },
     ],
   });

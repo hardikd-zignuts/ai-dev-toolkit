@@ -1,7 +1,9 @@
 import { checkbox, confirm } from "@inquirer/prompts";
 import { listAvailableSkills } from "../lib/skills-catalog.js";
 
-export async function promptSelectSkills(message = "Select skills"): Promise<string[]> {
+const ALL_SKILLS = "__all__";
+
+export async function promptSelectSkills(message = "Which skills?"): Promise<string[]> {
   const skills = listAvailableSkills();
 
   if (skills.length === 0) {
@@ -10,23 +12,40 @@ export async function promptSelectSkills(message = "Select skills"): Promise<str
 
   const selected = await checkbox({
     message,
-    choices: skills.map((skill) => ({
-      name: skill.name,
-      value: skill.folder,
-      description: skill.description.length > 80
-        ? `${skill.description.slice(0, 77)}...`
-        : skill.description,
-      checked: true,
-    })),
     required: true,
+    choices: [
+      {
+        name: "All skills",
+        value: ALL_SKILLS,
+        description: "Install every skill in the catalog",
+      },
+      ...skills.map((skill) => ({
+        name: skill.name,
+        value: skill.folder,
+        description: skill.description.length > 80
+          ? `${skill.description.slice(0, 77)}...`
+          : skill.description,
+      })),
+    ],
   });
+
+  if (selected.includes(ALL_SKILLS)) {
+    return skills.map((skill) => skill.folder);
+  }
 
   return selected;
 }
 
-export async function promptOverwriteConflicts(): Promise<boolean> {
+export async function promptOverwriteConflicts(
+  conflicts: string[],
+  itemLabel = "skills",
+): Promise<boolean> {
+  const listed = conflicts.length <= 6
+    ? conflicts.join(", ")
+    : `${conflicts.slice(0, 6).join(", ")} (+${conflicts.length - 6} more)`;
+
   return confirm({
-    message: "Some skills already exist. Overwrite them?",
+    message: `These ${itemLabel} already exist: ${listed}. Overwrite them?`,
     default: false,
   });
 }

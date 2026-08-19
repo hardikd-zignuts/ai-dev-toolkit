@@ -10,19 +10,19 @@ export function printBanner(): void {
 }
 
 export function success(message: string): void {
-  console.log(chalk.green("✔") + " " + message);
+  console.log(chalk.green("ok") + "  " + message);
 }
 
 export function warn(message: string): void {
-  console.log(chalk.yellow("⚠") + " " + message);
+  console.log(chalk.yellow("warn") + "  " + message);
 }
 
 export function error(message: string): void {
-  console.error(chalk.red("✖") + " " + message);
+  console.error(chalk.red("error") + "  " + message);
 }
 
 export function info(message: string): void {
-  console.log(chalk.blue("ℹ") + " " + message);
+  console.log(chalk.blue("info") + "  " + message);
 }
 
 export function heading(message: string): void {
@@ -45,7 +45,7 @@ export function printNextSteps(skillsRoot: string, skillNames: string[]): void {
 
 export function printBox(title: string, lines: string[]): void {
   const width = Math.max(title.length, ...lines.map((line) => line.length)) + 4;
-  const border = chalk.dim("─".repeat(width));
+  const border = chalk.dim("-".repeat(width));
   console.log();
   console.log(chalk.bold(title));
   console.log(border);

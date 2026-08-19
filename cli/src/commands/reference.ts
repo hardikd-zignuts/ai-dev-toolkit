@@ -50,15 +50,17 @@ export async function runReference(options: ReferenceOptions = {}): Promise<void
 
   if (!options.skill && !options.workflow) {
     mode = await select<"skill" | "workflow">({
-      message: "Which reference prompt would you like to generate?",
+      message: "Which docs do you want to customize?",
       choices: [
         {
-          name: "📖 Skill reference.md Prompt (for a specific agent skill)",
+          name: "Skill docs",
           value: "skill",
+          description: "Generate a prompt to fill in reference.md for one skill",
         },
         {
-          name: "🔄 Workflow Customization Prompt (for AI pipeline reference.md)",
+          name: "Workflow docs",
           value: "workflow",
+          description: "Generate a prompt to customize the workflow reference",
         },
       ],
     });
@@ -69,7 +71,7 @@ export async function runReference(options: ReferenceOptions = {}): Promise<void
 
   if (mode === "workflow") {
     finalPrompt = WORKFLOW_REFERENCE_PROMPT;
-    boxTitle = "Workflow Customization Prompt";
+    boxTitle = "Workflow docs prompt";
   } else {
     let skillsRoot = options.root;
 
@@ -78,7 +80,7 @@ export async function runReference(options: ReferenceOptions = {}): Promise<void
       if (detected) {
         skillsRoot = detected;
       } else {
-        const ide = await promptSelectIde("Select IDE to resolve skills root path:");
+        const ide = await promptSelectIde("Which IDE are the skills installed in?");
         skillsRoot = resolveInstallPath(ide, "project");
       }
     }
@@ -87,7 +89,7 @@ export async function runReference(options: ReferenceOptions = {}): Promise<void
     if (!skillName) {
       const skills = listAvailableSkills();
       skillName = await select({
-        message: "Which skill reference prompt?",
+        message: "Which skill?",
         choices: skills.map((skill) => ({
           name: skill.name,
           value: skill.folder,
@@ -100,7 +102,7 @@ export async function runReference(options: ReferenceOptions = {}): Promise<void
       .replaceAll("<skills-root>", skillsRoot)
       .replaceAll("<skill-name>", skillName);
 
-    boxTitle = `Skill reference.md Prompt (${skillsRoot}/${skillName})`;
+    boxTitle = `Skill docs prompt (${skillsRoot}/${skillName})`;
   }
 
   printBox(boxTitle, finalPrompt.split("\n"));
@@ -116,7 +118,7 @@ export async function runReference(options: ReferenceOptions = {}): Promise<void
   if (shouldCopy) {
     const ok = copyToClipboard(finalPrompt);
     if (ok) {
-      success("Reference prompt copied to clipboard!");
+      success("Reference prompt copied to clipboard.");
     } else {
       info("Clipboard write not supported on this platform. You can copy the text above.");
     }

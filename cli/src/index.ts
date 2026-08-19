@@ -1,5 +1,4 @@
 import { Command } from "commander";
-import { runInit } from "./commands/init.js";
 import { runSetup } from "./commands/setup.js";
 import { runAdd } from "./commands/add.js";
 import { runList } from "./commands/list.js";
@@ -20,7 +19,7 @@ program
 program
   .command("setup")
   .alias("init")
-  .description("Set up skills, workflows, setup prompts, or git hooks with an interactive wizard")
+  .description("Set up skills, workflows, and git hooks with an interactive wizard")
   .option("-t, --type <type>", "Setup target type (all, skills, workflows, prompts, husky)")
   .option("-f, --force", "Overwrite existing files without prompting")
   .action(async (options: { type?: string; force?: boolean }) => {
@@ -30,7 +29,7 @@ program
 
 program
   .command("add")
-  .description("Add skills or workflows to an existing install")
+  .description("Add skills to an existing install")
   .option("-f, --force", "Overwrite existing skills without prompting")
   .action(async (options: { force?: boolean }) => {
     printBanner();
@@ -48,7 +47,7 @@ program
 
 program
   .command("prompt")
-  .description("View or copy architecture setup prompts")
+  .description("View or copy architecture prompts")
   .option("-n, --name <name>", "Prompt ID or file name (e.g. auth-guards, state-store)")
   .option("-c, --copy", "Copy prompt to clipboard automatically")
   .action(async (options: { name?: string; copy?: boolean }) => {
@@ -58,7 +57,7 @@ program
 
 program
   .command("reference")
-  .description("Print or copy reference.md customization prompts")
+  .description("Print or copy a prompt to customize skill or workflow docs")
   .option("-s, --skill <name>", "Skill folder name (e.g. ui-development)")
   .option("-w, --workflow", "Generate workflow customization prompt")
   .option("-r, --root <path>", "Skills root path (e.g. .cursor/skills)")
@@ -75,7 +74,7 @@ program
 
 program
   .command("doctor")
-  .description("Verify skills, workflows, and git hooks installation status")
+  .description("Check what is already installed in this project")
   .option("-r, --root <path>", "Skills root path to check")
   .action(async (options: { root?: string }) => {
     printBanner();

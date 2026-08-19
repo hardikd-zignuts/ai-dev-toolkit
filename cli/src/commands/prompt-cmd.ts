@@ -29,7 +29,7 @@ export async function runPromptCmd(options: PromptCmdOptions = {}): Promise<void
     return;
   }
 
-  printBox(`Architecture Setup Prompt: ${title}`, content.split("\n"));
+  printBox(`Architecture prompt: ${title}`, content.split("\n"));
 
   let shouldCopy = options.copy;
   if (shouldCopy === undefined) {
@@ -42,7 +42,7 @@ export async function runPromptCmd(options: PromptCmdOptions = {}): Promise<void
   if (shouldCopy) {
     const ok = copyToClipboard(content);
     if (ok) {
-      success("Prompt copied to clipboard!");
+      success("Prompt copied to clipboard.");
     } else {
       info("Clipboard write not supported on this platform. You can copy the text above.");
     }

@@ -15,32 +15,39 @@ export async function runInteractiveMenu(): Promise<void> {
     message: "What would you like to do?",
     choices: [
       {
-        name: "⚡ Quick Setup Wizard (Skills, Workflows, Prompts, Husky)",
+        name: "Set up this project",
         value: "setup",
+        description: "Install skills, workflows, and git hooks into your IDE",
       },
       {
-        name: "➕ Add skills to an existing install",
+        name: "Add skills",
         value: "add",
+        description: "Add more skills to an existing install",
       },
       {
-        name: "📑 Generate reference.md customization prompt",
+        name: "Customize docs",
         value: "reference",
+        description: "Generate a prompt to fill in reference.md for your project",
       },
       {
-        name: "🏗️ View Architecture Setup Prompts",
+        name: "View architecture prompts",
         value: "prompts",
+        description: "Copy prompts for auth, API, state, and similar setup",
       },
       {
-        name: "📋 Browse Catalog (Skills, Prompts, Workflows, Templates)",
+        name: "Browse catalog",
         value: "list",
+        description: "See available skills, workflows, prompts, and templates",
       },
       {
-        name: "🩺 Check installation health (doctor)",
+        name: "Check install",
         value: "doctor",
+        description: "Verify what is already installed in this project",
       },
       {
-        name: "🚪 Exit",
+        name: "Exit",
         value: "exit",
+        description: "Close the wizard",
       },
     ],
   });

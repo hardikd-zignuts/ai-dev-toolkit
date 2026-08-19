@@ -1,9 +1,10 @@
-import type { SetupType } from "../types.js";
+import type { InstallablePiece, SetupType } from "../types.js";
 import { runInit } from "./init.js";
 import { copyWorkflows } from "../lib/copy-workflows.js";
 import { copyHusky } from "../lib/copy-husky.js";
-import { promptSelectSetupType } from "../prompts/select-setup-type.js";
-import { info, printBox, success } from "../lib/ui.js";
+import { promptSelectSetupPieces } from "../prompts/select-setup-type.js";
+import { promptOverwriteConflicts } from "../prompts/select-skills.js";
+import { heading, info, printBox, success } from "../lib/ui.js";
 import { runPromptCmd } from "./prompt-cmd.js";
 
 export interface SetupOptions {
@@ -12,69 +13,117 @@ export interface SetupOptions {
   cwd?: string;
 }
 
+type OverwriteFn = (conflicts: string[], label: string) => Promise<boolean>;
+
+function piecesFromType(type: SetupType): InstallablePiece[] | "prompts" {
+  if (type === "prompts") return "prompts";
+  if (type === "all") return ["skills", "workflows", "husky"];
+  return [type];
+}
+
+function printCopied(label: string, files: string[]): void {
+  if (files.length === 0) {
+    info(`No ${label} were installed.`);
+    return;
+  }
+  success(`Installed ${files.length} ${label}:`);
+  for (const file of files) {
+    console.log(`  - ${file}`);
+  }
+}
+
+function conflictHandler(
+  overwrite: OverwriteFn | undefined,
+  label: string,
+): ((conflicts: string[]) => Promise<boolean>) | undefined {
+  if (!overwrite) return undefined;
+  return (conflicts) => overwrite(conflicts, label);
+}
+
+async function installWorkflows(
+  cwd: string,
+  force: boolean | undefined,
+  overwrite: OverwriteFn | undefined,
+  showNextSteps: boolean,
+): Promise<boolean> {
+  info("Installing workflow templates...");
+  const result = await copyWorkflows({
+    force,
+    targetDir: cwd,
+    onConflict: conflictHandler(overwrite, "workflow files"),
+  });
+  printCopied("workflow file(s)", result.copiedFiles);
+  if (showNextSteps && result.copiedFiles.length > 0) {
+    printBox("Next steps for workflows", [
+      "1. Open your project in your AI IDE",
+      "2. Run: npx agentkitx reference --workflow",
+      "3. Paste the generated prompt to customize workflows-reference.md for your codebase",
+    ]);
+  }
+  return result.copiedFiles.length > 0;
+}
+
+async function installGitHooks(
+  cwd: string,
+  force: boolean | undefined,
+  overwrite: OverwriteFn | undefined,
+): Promise<boolean> {
+  info("Installing git hooks...");
+  const result = await copyHusky({
+    force,
+    targetDir: cwd,
+    onConflict: conflictHandler(overwrite, "git hook files"),
+  });
+  printCopied("hook and config file(s)", result.copiedFiles);
+  if (result.packageSnippet && result.copiedFiles.length > 0) {
+    printBox("package.json snippet", result.packageSnippet.split("\n"));
+  }
+  return result.copiedFiles.length > 0;
+}
+
 export async function runSetup(options: SetupOptions = {}): Promise<void> {
   const cwd = options.cwd ?? process.cwd();
-  let setupType = options.type;
 
-  if (!setupType) {
-    setupType = await promptSelectSetupType();
+  const pieces = options.type
+    ? piecesFromType(options.type)
+    : await promptSelectSetupPieces();
+
+  if (pieces === "prompts") {
+    await runPromptCmd({});
+    return;
   }
 
-  switch (setupType) {
-    case "skills":
-      await runInit({ force: options.force, cwd });
-      break;
+  const overwrite = options.force
+    ? undefined
+    : (conflicts: string[], label: string) => promptOverwriteConflicts(conflicts, label);
 
-    case "workflows": {
-      info("Installing AI Workflows pipeline templates...");
-      const result = await copyWorkflows({ force: options.force, targetDir: cwd });
-      success(`Installed ${result.copiedFiles.length} workflow file(s):`);
-      for (const f of result.copiedFiles) {
-        console.log(`  - ${f}`);
-      }
-      printBox("Next steps for AI Workflows", [
-        "1. Open your project in your AI IDE",
-        "2. Run: npx agentkitx reference --workflow",
-        "3. Paste the generated prompt to customize reference.md for your codebase",
-      ]);
-      break;
+  const multi = pieces.length > 1;
+  const installed: string[] = [];
+
+  if (pieces.includes("skills")) {
+    if (multi) heading("Skills");
+    const result = await runInit({ force: options.force, cwd });
+    if (result && result.installedSkills.length > 0) {
+      installed.push("skills");
     }
+  }
 
-    case "husky": {
-      info("Installing Git Hooks & Husky templates...");
-      const result = await copyHusky({ force: options.force, targetDir: cwd });
-      success(`Installed ${result.copiedFiles.length} hook & config file(s):`);
-      for (const f of result.copiedFiles) {
-        console.log(`  - ${f}`);
-      }
-      if (result.packageSnippet) {
-        printBox("package.json snippet", result.packageSnippet.split("\n"));
-      }
-      break;
-    }
+  if (pieces.includes("workflows")) {
+    if (multi) heading("Workflows");
+    const copied = await installWorkflows(cwd, options.force, overwrite, !multi);
+    if (copied) installed.push("workflows");
+  }
 
-    case "prompts":
-      await runPromptCmd({});
-      break;
+  if (pieces.includes("husky")) {
+    if (multi) heading("Git hooks");
+    const copied = await installGitHooks(cwd, options.force, overwrite);
+    if (copied) installed.push("git hooks");
+  }
 
-    case "all": {
-      info("⚡ Running All-in-One Quickstart Setup...");
-      console.log("\n--- Step 1: Agent Skills ---");
-      await runInit({ force: options.force, cwd });
-
-      console.log("\n--- Step 2: AI Workflows Pipeline ---");
-      const wfResult = await copyWorkflows({ force: options.force, targetDir: cwd });
-      success(`Installed ${wfResult.copiedFiles.length} workflow file(s).`);
-
-      console.log("\n--- Step 3: Git Hooks & Husky ---");
-      const huskyResult = await copyHusky({ force: options.force, targetDir: cwd });
-      success(`Installed ${huskyResult.copiedFiles.length} hook/config file(s).`);
-
-      printBox("🎉 All-in-One Setup Complete!", [
-        "Your project is now equipped with portable Agent Skills, AI Workflows, and Git Hooks.",
-        "To customize reference.md, run: npx agentkitx reference",
-      ]);
-      break;
-    }
+  if (multi && installed.length > 0) {
+    printBox("Setup complete", [
+      `Installed: ${installed.join(", ")}.`,
+      "To customize skill or workflow docs, run: npx agentkitx reference",
+    ]);
   }
 }

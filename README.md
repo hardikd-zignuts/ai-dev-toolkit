@@ -12,13 +12,13 @@ From your project root:
 npx agentkitx
 ```
 
-The interactive wizard walks you through IDE selection, install location, and skill choices. Subcommands are also available:
+The starting menu lets you set up this project, add skills, customize docs, browse the catalog, and check what is already installed. Subcommands are also available:
 
 ```bash
-npx agentkitx init          # setup wizard
-npx agentkitx add           # add skills to an existing install
-npx agentkitx list          # show skill catalog
-npx agentkitx reference     # print reference.md customization prompt
+npx agentkitx setup        # set up this project (skills, workflows, git hooks)
+npx agentkitx add          # add skills to an existing install
+npx agentkitx list         # browse catalog
+npx agentkitx reference    # customize skill or workflow docs
 ```
 
 ## Table of contents

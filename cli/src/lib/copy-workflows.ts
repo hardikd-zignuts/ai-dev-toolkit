@@ -1,59 +1,118 @@
 import fs from "node:fs";
 import path from "node:path";
 import { getWorkflowsSourceDir } from "./assets-source.js";
-import { info, success } from "./ui.js";
+import { warn } from "./ui.js";
 
 export interface CopyWorkflowsOptions {
   targetDir?: string;
   force?: boolean;
+  onConflict?: (conflicts: string[]) => Promise<boolean>;
 }
 
 export interface CopyWorkflowsResult {
   copiedFiles: string[];
+  skippedFiles: string[];
+}
+
+interface PlannedCopy {
+  src: string;
+  dest: string;
+  display: string;
+}
+
+function walkFiles(dir: string): string[] {
+  if (!fs.existsSync(dir)) return [];
+
+  const files: string[] = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      for (const rel of walkFiles(full)) {
+        files.push(path.join(entry.name, rel));
+      }
+    } else if (entry.isFile()) {
+      files.push(entry.name);
+    }
+  }
+  return files;
+}
+
+function displayPath(...parts: string[]): string {
+  return parts.join("/").replaceAll(path.sep, "/");
+}
+
+function planTree(sourceRoot: string, destRoot: string, displayPrefix: string): PlannedCopy[] {
+  return walkFiles(sourceRoot).map((rel) => ({
+    src: path.join(sourceRoot, rel),
+    dest: path.join(destRoot, rel),
+    display: displayPath(displayPrefix, rel),
+  }));
+}
+
+function copyFile(src: string, dest: string): void {
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  fs.copyFileSync(src, dest);
 }
 
 export async function copyWorkflows(options: CopyWorkflowsOptions = {}): Promise<CopyWorkflowsResult> {
   const targetDir = options.targetDir ?? process.cwd();
   const workflowsSource = getWorkflowsSourceDir();
 
-  const copiedFiles: string[] = [];
+  const planned: PlannedCopy[] = [
+    ...planTree(
+      path.join(workflowsSource, ".github"),
+      path.join(targetDir, ".github"),
+      ".github",
+    ),
+    ...planTree(
+      path.join(workflowsSource, ".claude"),
+      path.join(targetDir, ".claude"),
+      ".claude",
+    ),
+  ];
 
-  // Copy .github workflow templates
-  const githubSource = path.join(workflowsSource, ".github");
-  if (fs.existsSync(githubSource)) {
-    const githubTarget = path.join(targetDir, ".github");
-    fs.mkdirSync(githubTarget, { recursive: true });
-    fs.cpSync(githubSource, githubTarget, { recursive: true });
-    copiedFiles.push(".github/");
-  }
-
-  // Copy .claude workflow templates
-  const claudeSource = path.join(workflowsSource, ".claude");
-  if (fs.existsSync(claudeSource)) {
-    const claudeTarget = path.join(targetDir, ".claude");
-    fs.mkdirSync(claudeTarget, { recursive: true });
-    fs.cpSync(claudeSource, claudeTarget, { recursive: true });
-    copiedFiles.push(".claude/");
-  }
-
-  // Copy HOWTO-AI-WORKFLOW.md to docs/
   const howtoSource = path.join(workflowsSource, "HOWTO-AI-WORKFLOW.md");
   if (fs.existsSync(howtoSource)) {
-    const docsTarget = path.join(targetDir, "docs");
-    fs.mkdirSync(docsTarget, { recursive: true });
-    fs.copyFileSync(howtoSource, path.join(docsTarget, "HOWTO-AI-WORKFLOW.md"));
-    copiedFiles.push("docs/HOWTO-AI-WORKFLOW.md");
+    planned.push({
+      src: howtoSource,
+      dest: path.join(targetDir, "docs", "HOWTO-AI-WORKFLOW.md"),
+      display: "docs/HOWTO-AI-WORKFLOW.md",
+    });
   }
 
-  // Copy reference.md to root or workflows/
   const refSource = path.join(workflowsSource, "reference.md");
   if (fs.existsSync(refSource)) {
-    const refTarget = path.join(targetDir, "workflows-reference.md");
-    if (!fs.existsSync(refTarget) || options.force) {
-      fs.copyFileSync(refSource, refTarget);
-      copiedFiles.push("workflows-reference.md");
-    }
+    planned.push({
+      src: refSource,
+      dest: path.join(targetDir, "workflows-reference.md"),
+      display: "workflows-reference.md",
+    });
   }
 
-  return { copiedFiles };
+  const existing = planned.filter((item) => fs.existsSync(item.dest));
+  let overwriteExisting = Boolean(options.force);
+
+  if (existing.length > 0 && !options.force && options.onConflict) {
+    overwriteExisting = await options.onConflict(existing.map((item) => item.display));
+  }
+
+  const copiedFiles: string[] = [];
+  const skippedFiles: string[] = [];
+
+  for (const item of planned) {
+    const destExists = fs.existsSync(item.dest);
+    if (destExists && !overwriteExisting) {
+      skippedFiles.push(item.display);
+      continue;
+    }
+
+    copyFile(item.src, item.dest);
+    copiedFiles.push(item.display);
+  }
+
+  if (skippedFiles.length > 0) {
+    warn(`Skipped ${skippedFiles.length} existing file(s).`);
+  }
+
+  return { copiedFiles, skippedFiles };
 }

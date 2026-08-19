@@ -48,7 +48,7 @@ async function promptForTarget(cwd: string): Promise<{ installPath: string; targ
 export async function runAdd(options: AddOptions = {}): Promise<InstallContext | null> {
   const cwd = options.cwd ?? process.cwd();
   const { installPath, targetDir } = await promptForTarget(cwd);
-  const skillFolders = await promptSelectSkills("Select skills to add");
+  const skillFolders = await promptSelectSkills("Which skills to add?");
 
   const displayPath = formatDisplayPath(installPath, cwd);
 

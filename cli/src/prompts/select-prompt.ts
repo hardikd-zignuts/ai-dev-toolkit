@@ -3,7 +3,7 @@ import { PROMPTS_CATALOG } from "../constants/prompts-catalog.js";
 import type { SetupPromptMeta } from "../types.js";
 
 export async function promptSelectArchitecturePrompt(
-  message = "Which Architecture Setup Prompt?",
+  message = "Which architecture prompt?",
 ): Promise<SetupPromptMeta> {
   const choiceId = await select<string>({
     message,

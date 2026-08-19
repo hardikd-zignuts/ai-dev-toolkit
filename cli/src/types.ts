@@ -13,6 +13,8 @@ export type AssetKind = "skills" | "prompts" | "workflows" | "templates";
 
 export type SetupType = "all" | "skills" | "workflows" | "prompts" | "husky";
 
+export type InstallablePiece = "skills" | "workflows" | "husky";
+
 export interface SetupPromptMeta {
   id: string;
   title: string;
