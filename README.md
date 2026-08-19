@@ -12,13 +12,13 @@ From your project root:
 npx agentkitx
 ```
 
-The starting menu lets you set up this project, add skills, customize docs, browse the catalog, and check what is already installed. Subcommands are also available:
+The starting menu lets you set up this project, add skills, adapt skills to this repo, and browse the catalog. Subcommands are also available:
 
 ```bash
 npx agentkitx setup        # set up this project (skills, workflows, git hooks)
 npx agentkitx add          # add skills to an existing install
 npx agentkitx list         # browse catalog
-npx agentkitx reference    # customize skill or workflow docs
+npx agentkitx reference    # get a prompt that fills in your stack and file paths
 ```
 
 ## Table of contents

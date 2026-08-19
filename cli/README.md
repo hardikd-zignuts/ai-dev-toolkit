@@ -5,11 +5,11 @@ Interactive CLI for installing portable [Agent Skills](https://agentskills.io), 
 ## Usage
 
 ```bash
-npx agentkitx              # starting menu: set up, add skills, customize docs, and more
+npx agentkitx              # starting menu: set up, add skills, adapt skills, and more
 npx agentkitx setup        # install skills, workflows, and/or git hooks
 npx agentkitx add          # add skills to an existing install
-npx agentkitx prompt       # view or copy architecture prompts
-npx agentkitx reference    # generate a prompt to customize skill or workflow docs
+npx agentkitx prompt       # copy a prompt to add app features (login, API, theme, ...)
+npx agentkitx reference    # get a prompt that fills in your stack and file paths
 npx agentkitx list         # browse catalog (skills, prompts, workflows, templates)
 npx agentkitx doctor       # check what is installed
 ```

@@ -29,12 +29,12 @@ export async function runPromptCmd(options: PromptCmdOptions = {}): Promise<void
     return;
   }
 
-  printBox(`Architecture prompt: ${title}`, content.split("\n"));
+  printBox(`Setup prompt: ${title}`, content.split("\n"));
 
   let shouldCopy = options.copy;
   if (shouldCopy === undefined) {
     shouldCopy = await confirm({
-      message: "Copy this prompt to system clipboard?",
+      message: "Copy this prompt so you can paste it into your AI IDE?",
       default: true,
     });
   }

@@ -6,7 +6,6 @@ import { runAdd } from "./commands/add.js";
 import { runList } from "./commands/list.js";
 import { runReference } from "./commands/reference.js";
 import { runPromptCmd } from "./commands/prompt-cmd.js";
-import { runDoctor } from "./commands/doctor.js";
 
 export async function runInteractiveMenu(): Promise<void> {
   printBanner();
@@ -25,24 +24,19 @@ export async function runInteractiveMenu(): Promise<void> {
         description: "Add more skills to an existing install",
       },
       {
-        name: "Customize docs",
+        name: "Adapt skills to this project",
         value: "reference",
-        description: "Generate a prompt to fill in reference.md for your project",
+        description: "Get a prompt that fills in your stack and file paths so skills work here",
       },
       {
-        name: "View architecture prompts",
+        name: "Copy a prompt to add app features",
         value: "prompts",
-        description: "Copy prompts for auth, API, state, and similar setup",
+        description: "Login, layouts, API, Firebase, state, or theme — paste it into your AI IDE",
       },
       {
         name: "Browse catalog",
         value: "list",
         description: "See available skills, workflows, prompts, and templates",
-      },
-      {
-        name: "Check install",
-        value: "doctor",
-        description: "Verify what is already installed in this project",
       },
       {
         name: "Exit",
@@ -67,9 +61,6 @@ export async function runInteractiveMenu(): Promise<void> {
       break;
     case "list":
       runList();
-      break;
-    case "doctor":
-      await runDoctor();
       break;
     case "exit":
       break;

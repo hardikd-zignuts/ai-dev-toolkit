@@ -123,7 +123,7 @@ export async function runSetup(options: SetupOptions = {}): Promise<void> {
   if (multi && installed.length > 0) {
     printBox("Setup complete", [
       `Installed: ${installed.join(", ")}.`,
-      "To customize skill or workflow docs, run: npx agentkitx reference",
+      "To adapt skills to this project, run: npx agentkitx reference",
     ]);
   }
 }

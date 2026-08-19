@@ -29,10 +29,9 @@ export function runList(options: ListOptions = {}): void {
   }
 
   if (type === "all" || type === "prompts") {
-    heading("Architecture prompts");
+    heading("App feature prompts");
     for (const p of PROMPTS_CATALOG) {
-      console.log(`  ${chalk.green(p.title.padEnd(25))} [${p.category}]`);
-      console.log(`  ${chalk.dim(p.frameworks)}`);
+      console.log(`  ${chalk.green(p.title.padEnd(28))} ${p.summary}`);
     }
   }
 

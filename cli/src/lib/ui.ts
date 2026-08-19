@@ -36,7 +36,7 @@ export function muted(message: string): void {
 
 export function printNextSteps(skillsRoot: string, skillNames: string[]): void {
   heading("Next steps");
-  muted("Customize reference.md for each skill before implementation or review.");
+  muted("Adapt each skill to this project before you use it for implementation or review.");
   console.log();
   console.log(chalk.dim("  Example:"));
   console.log(`  npx agentkitx reference --skill ${skillNames[0] ?? "ui-development"} --root ${skillsRoot}`);

@@ -18,6 +18,7 @@ export type InstallablePiece = "skills" | "workflows" | "husky";
 export interface SetupPromptMeta {
   id: string;
   title: string;
+  summary: string;
   category: string;
   frameworks: string;
   fileName: string;
@@ -37,5 +38,4 @@ export type MenuAction =
   | "reference"
   | "prompts"
   | "list"
-  | "doctor"
   | "exit";

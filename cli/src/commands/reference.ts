@@ -50,17 +50,17 @@ export async function runReference(options: ReferenceOptions = {}): Promise<void
 
   if (!options.skill && !options.workflow) {
     mode = await select<"skill" | "workflow">({
-      message: "Which docs do you want to customize?",
+      message: "What should the prompt cover?",
       choices: [
         {
-          name: "Skill docs",
+          name: "One installed skill",
           value: "skill",
-          description: "Generate a prompt to fill in reference.md for one skill",
+          description: "Fill in this project's stack and file paths for that skill",
         },
         {
-          name: "Workflow docs",
+          name: "The workflow pipeline",
           value: "workflow",
-          description: "Generate a prompt to customize the workflow reference",
+          description: "Fill in this project's tickets, branches, and test commands",
         },
       ],
     });

@@ -6,7 +6,8 @@ import { getPromptsSourceDir } from "../lib/assets-source.js";
 export const PROMPTS_CATALOG: SetupPromptMeta[] = [
   {
     id: "auth-guards",
-    title: "Auth Guards Setup",
+    title: "Login and protected pages",
+    summary: "Keep private pages behind login so only signed-in users can open them",
     category: "Security / Routing",
     frameworks: "React, Next.js, Vue, Nuxt, SvelteKit",
     fileName: "auth-guards-setup.md",
@@ -14,7 +15,8 @@ export const PROMPTS_CATALOG: SetupPromptMeta[] = [
   },
   {
     id: "layouts",
-    title: "Layouts Setup",
+    title: "Page layouts",
+    summary: "Add shared shells such as a header, sidebar, and nested page layouts",
     category: "Architecture",
     frameworks: "React, Next.js, Vue, Nuxt, SvelteKit",
     fileName: "layouts-setup.md",
@@ -22,7 +24,8 @@ export const PROMPTS_CATALOG: SetupPromptMeta[] = [
   },
   {
     id: "tanstack-query",
-    title: "TanStack Query Setup",
+    title: "Data fetching",
+    summary: "Add shared loading, caching, and refetch for API data",
     category: "Data Fetching",
     frameworks: "React Query, Vue Query, Svelte Query, Next.js, Nuxt",
     fileName: "tanstack-query-setup.md",
@@ -30,7 +33,8 @@ export const PROMPTS_CATALOG: SetupPromptMeta[] = [
   },
   {
     id: "firebase",
-    title: "Firebase Setup",
+    title: "Firebase",
+    summary: "Connect Firebase authentication and data to this app",
     category: "Backend / BaaS",
     frameworks: "React, Next.js, Vue, Nuxt, SvelteKit",
     fileName: "firebase-setup.md",
@@ -38,15 +42,17 @@ export const PROMPTS_CATALOG: SetupPromptMeta[] = [
   },
   {
     id: "api-client",
-    title: "API Client Setup",
+    title: "API client",
+    summary: "Add a shared HTTP client for talking to your backend",
     category: "Networking",
-    frameworks: "Axios / Fetch / Ofetch (React, Next.js, Vue, Nuxt, Svelte)",
+    frameworks: "Axios / Fetch / Ofetch (React, Next.js, Vue, Svelte)",
     fileName: "api-client-setup.md",
     filePath: "",
   },
   {
     id: "state-store",
-    title: "State Store Setup",
+    title: "App state",
+    summary: "Add a shared client-side store (Zustand, Pinia, Redux, or similar)",
     category: "State Management",
     frameworks: "Zustand, Pinia, Redux Toolkit, Svelte Stores",
     fileName: "state-store-setup.md",
@@ -54,7 +60,8 @@ export const PROMPTS_CATALOG: SetupPromptMeta[] = [
   },
   {
     id: "theme-provider",
-    title: "Theme Provider Setup",
+    title: "Light and dark theme",
+    summary: "Add a theme switcher that follows your existing UI library",
     category: "UI System",
     frameworks: "Light/Dark mode for React, Next.js, Vue, Nuxt, Svelte",
     fileName: "theme-provider-setup.md",
